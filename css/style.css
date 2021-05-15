@@ -1,0 +1,33 @@
+/***********************************
+            Header
+***********************************/
+
+
+
+
+/***********************************
+            Body
+***********************************/
+body{
+    font-family: Verdana,sans-serif,arial;
+    font-size: 14px;
+    margin: 0;
+}
+
+/*    Errors   */
+.error{
+    color:tomato;
+}
+
+
+
+
+/***********************************
+            Footer
+***********************************/
+footer{
+    background-color : #7b7272;
+    color: white;
+    padding:10px;
+    margin-top:10px;
+}

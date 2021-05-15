@@ -1,0 +1,19 @@
+{
+    "name": "senor16/karite",
+    "description": "A website to get informations and buy 'Beurre de Karité'",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sesso Kosga",
+            "email": "kosgasesso@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4" :{
+            "App\\": "app/",
+            "App\\Models\\": "models/",
+            "App\\Controllers\\": "controllers/"
+        }
+    },
+    "require": {}
+}
