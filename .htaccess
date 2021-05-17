@@ -3,6 +3,7 @@ RewriteEngine On
 
 #Rewrite rule for User
 RewriteRule ^test/(.*)$ User/test/$1
+RewriteRule ^tests/(.*)$ User/tests/$1
 
 #Rewrite url to process it
 RewriteRule ^([a-zA-Z0-9\-\_\/\?]*)$ index.php?p=$1

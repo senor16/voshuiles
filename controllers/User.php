@@ -33,7 +33,7 @@ class User extends \App\Controller
      * @param string $last_name
      * @return bool
      */
-    public function checkLasstName(string $last_name):bool{
+    public function checkLastName(string $last_name):bool{
         return !(empty($last_name) || !preg_match("/^[a-zA-Zéèïëçêâôöòó\- ]+$/", $last_name) || strlen($last_name) > 70);
     }
 
@@ -168,7 +168,7 @@ class User extends \App\Controller
         }
 
         //Last name
-        if(isset($fields['last_name']) && !$this->checkLasstName($fields['last_name'])){
+        if(isset($fields['last_name']) && !$this->checkLastName($fields['last_name'])){
             $result['error']=true;
             $result['message']['last_name']="Veuillez entrer un nom valide (70 caractères max).";
 
@@ -201,8 +201,7 @@ class User extends \App\Controller
         }
 
         //Show the result in a json
-        header('Content-Type: application/json');
-        echo json_encode($result);
+        $this->showJson($result);
     }
 
 
@@ -234,9 +233,114 @@ class User extends \App\Controller
         }
 
         //Show the result in a json
-        header('Content-Type: application/json');
-        echo json_encode($result);
+        $this->showJSon($result);
 	}
+
+	public function settings(string $action, array $fields=[]){
+	    $result['error']=false;
+	    $result['message']=[];
+
+	    //Perform the right action
+	    switch ($action){
+            case "profile":
+
+                //Check last name
+                if(isset($fields['last_name']) && !$this->checkLastName($fields['last_name'])){
+                    $result['error']=true;
+                    $result['message']['last_name']='Veuillez un nom valide';
+                }
+
+                //Check first name
+                if(isset($fields['first_name']) && !$this->checkFirstName($fields['first_name'])){
+                    $result['error']=true;
+                    $result['message']['first_name']="Veuillez entrer un prénom valide";
+                }
+
+                //Check avatar
+                if(isset($fields['avatar']) && !$this->checkAvatar($fields['avatar'])){
+                    $result['error']=true;
+                    $result['message']['avatar']="Veuillez choisir une image valide (format autorisés : .png .jpg .jpeg .gif).";
+                }
+
+                //Check phone number
+                if(isset($fields['phone_number']) && !$this->checkPhoneNumber($fields['phone_number'])){
+                    $result['error']=true;
+                    $result['message']['phone_number']="Veuillez entrer un numéro valide (9 chiffres).";
+                }
+
+                //Check town
+                if(isset($fields['town']) && !$this->checkTown($fields['town'])){
+                    $result['error']=true;
+                    $result['message']['town']="Veuillez entrer une ville valide.";
+                }
+
+                //Check birth date
+                if(isset($fields['birth_date']) && !$this->checkBirthDate($fields['birth_date'])){
+                    $result['error']=true;
+                    $result['message']['birth_date']="Veuillez entrer une date de naissance valide";
+                }
+
+                //Check gender
+                if(isset($fields['gender']) && !$this->checkGender($fields['gender'])){
+                    $result['error']=true;
+                    $result['message']['gender']="Veuillez choisir un genre valide";
+                }
+
+                //Check email
+                if(isset($fields['email']) && !$this->checkEmail($fields['email'])){
+                    $result['error']=true;
+                    $result['message']['email']="Veuillez entrer un email valide.";
+                }
+
+                if (!$result['error']){
+                    $result['info']="Les modifications ont été enregistrées avecsuccès.";
+                    $result['message']['email']="Un email vous a été envoyé pour confirmer votre nouvelle adresse email";
+                    $result['message']['phone_number']="Un sms vous a été envoyé pour confirmer votre nouveau numéro de téléphone";
+                }
+
+                break;
+
+
+            case "account":
+                if (!isset($fields['password'])){
+                    $result['error']=true;
+                    $result['message']['password']="Veuiller entrer votre mot de passe";
+                }
+
+                if(!$result['error']){
+                    $result['info']="Votre compte a été supprimé";
+                }
+
+                break;
+
+            case "password":
+                if(!isset($fields['password'])){
+                    $result['error']=true;
+                    $result['message']['password']="Veuillez entrer votre mot de passe actuel";
+                }
+
+                if(!isset($fields['new_password']) || !$this->checkPassword($fields['new_password'])){
+                    $result['error']=true;
+                    $result['message']['new_password']="Veuillez entrer un mot de passe valide (6 à 255 caractères).";
+                }
+
+                if(!isset($fields['password_confirm']) || $fields['new_password'] !== $fields['password_confirm']){
+                    $result['error']=true;
+                    $result['message']['password_confirm']="Les mots de passes ne correspondent pas";
+                }
+
+                if(!$result['error']){
+                    $result['info']="Votre mot de passe a été modifié avec succès";
+                }
+
+                break;
+
+        }
+
+        //Show the result in a json
+        $this->showJSon($result);
+    }
+
     /**
      * Function to test the user actions
      * @param string $action
@@ -267,5 +371,37 @@ class User extends \App\Controller
                 break;
         }
 
+    }
+
+    /*
+     * Test settings
+     */
+    public function tests($action){
+        $fields=[];
+        switch($action){
+            case "profile":
+                $fields['email']="hello@th.com";
+                $fields['gender']="male";
+                $fields['birth_date']="31-03-2001";
+
+                $fields['first_name']="John";
+                $fields['last_name']="Smith";
+                $fields['town']="Garoua";
+                $fields['phone_number']="698142207";
+                $fields['avatar']="hello-kitty.here.png";
+                break;
+
+            case "account":
+                $fields['password']='kalitori';
+                break;
+
+            case "password":
+                $fields['password']="aqwedede";
+                $fields['new_password']="aqwede";
+                $fields['password_confirm']="aqwede";
+                break;
+
+        }
+        $this->settings($action,$fields);
     }
 }

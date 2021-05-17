@@ -27,4 +27,10 @@ abstract class Controller{
     public function loadStyle(string $file):string{
         return '<link rel="stylesheet" href="'.ROOT_URL.'css/'.strtolower($file).'>';
     }
+
+    //Function to show a variable as a json
+    public function showJson($var){
+        header('Content-Type: application/json');
+        echo json_encode($var);
+    }
 }
