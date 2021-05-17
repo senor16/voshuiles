@@ -5,7 +5,7 @@ use App\Controllers\HttpErrors;
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 
 $url = $_SERVER['SERVER_ADDR'] == "::1" ? 'localhost' : $_SERVER['SERVER_ADDR'];
-define('ROOT_URL','http://'.$url.'/php/php-mvc/');
+define('ROOT_URL','http://'.$url.'/php/karite/');
 
 require_once ROOT."vendor/autoload.php";
 
