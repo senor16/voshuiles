@@ -71,6 +71,13 @@ class Product extends Controller{
             $result['message']['description']="Veuillez entrer plus de 5 caractères";
         }
 
+        if (!isset($fields['price']) || !is_integer($fields['price']) ){
+            $result['error']=true;
+            $result['message']['price']="Entrez un montant valide.";
+        }
+
+
+
         if(!$result['error']){
             $result['info']="Produit ajouté avec succès";
         }
@@ -83,6 +90,42 @@ class Product extends Controller{
      * @param array $fields
      */
     public function update(array $fields=[]){
+        $result['error']=false;
+        $resut['message']=[];
+        if (isset($fields['quality']) && !$this->checkQuality($fields['quality'])){
+            $result['error']=true;
+            $result['message']['quality']="Choix invalide";
+        }
+
+        if (isset($fields['conditioning']) && !$this->checkConditioning($fields['conditioning'])){
+            $result['error']=true;
+            $result['message']['conditioning']="Choix invalide";
+        }
+
+        if (isset($fields['description']) && !$this->checkDescription($fields['description'])){
+            $result['error']=true;
+            $result['message']['description']="Veuillez entrer plus de 5 caractères";
+        }
+
+        if (isset($fields['price']) && !is_integer($fields['price']) ){
+            $result['error']=true;
+            $result['message']['price']="Entrez un montant valide.";
+        }
+
+
+
+        if(!$result['error']){
+            $result['info']="Produit modifié ajouté avec succès";
+        }
+
+        $this->showJson($result);
+    }
+
+    /**
+     * Delete a product
+     * @param $id
+     */
+    public function delete($id){
 
     }
 
@@ -96,11 +139,20 @@ class Product extends Controller{
                 $fields['quality']="blanc";
                 $fields['conditioning']="litre";
                 $fields['description']="Très bon produit. Beurre de karité.";
-
+                $fields['price']=400;
                 $this->add($fields);
+                break;
+            case "update":
+                $fields['quality']="blanc";
+                $fields['conditioning']="litre";
+                $fields['description']="Très bon produit. Beurre de karité.";
+                $fields['price']='400f';
+                $this->update($fields);
                 break;
         }
     }
+
+
 
 }
 
