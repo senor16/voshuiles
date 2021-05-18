@@ -5,12 +5,17 @@ namespace App\Controllers;
 
 use DateTime;
 
+/**
+ * Class User
+ * Handle actions about user
+ * @package App\Controllers
+ */
 class User extends \App\Controller
 {
 
     /********************************************************
     *                                                       *
-    *   Functions used to check the validity of fields*     *
+    *   Functions used to check the validity of fields      *
     *                                                       *
     ********************************************************/
 
@@ -37,19 +42,7 @@ class User extends \App\Controller
         return !(empty($last_name) || !preg_match("/^[a-zA-Zéèïëçêâôöòó\- ]+$/", $last_name) || strlen($last_name) > 70);
     }
 
-    /**
-     * Check the validity of the user'avatar
-     * Allowed image extensions : .png .gif .jpg .jpeg
-     * return true if a last name is valid and false if not
-     * @param string $avatar
-     * @return bool
-     */
-    public function checkAvatar(string $avatar):bool{
-        $allowed_extensions =['png','gif','jpg','jpeg'];
-        $pathinfo = pathinfo($avatar);
-        $extension =$pathinfo['extension'];
-        return in_array($extension,$allowed_extensions);
-    }
+
 
     /**
      * Check the validity of a phone number
@@ -188,7 +181,7 @@ class User extends \App\Controller
         }
 
         //Avatar
-        if(isset($fields['avatar']) && !$this->checkAvatar($fields['avatar'])){
+        if(isset($fields['avatar']) && !$this->checkImage($fields['avatar'])){
             $result['error']=true;
             $result['message']['avatar']="Veuillez choisir une image valide (format autorisés : .png .jpg .jpeg .gif).";
         }

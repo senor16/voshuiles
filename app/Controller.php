@@ -2,6 +2,8 @@
 namespace App;
 
 abstract class Controller{
+    protected array $result;
+
     //Function used the render pages
     public function render(string $file,array $args=[]){
         //Get the parameters out of their table
@@ -28,9 +30,25 @@ abstract class Controller{
         return '<link rel="stylesheet" href="'.ROOT_URL.'css/'.strtolower($file).'>';
     }
 
+    /**
+     * Check the validity of the user'avatar
+     * Allowed image extensions : .png .gif .jpg .jpeg
+     * return true if a last name is valid and false if not
+     * @param string $avatar
+     * @return bool
+     */
+    public function checkImage(string $avatar):bool{
+        $allowed_extensions =['png','gif','jpg','jpeg'];
+        $pathinfo = pathinfo($avatar);
+        $extension =$pathinfo['extension'];
+        return in_array($extension,$allowed_extensions);
+    }
+
     //Function to show a variable as a json
     public function showJson($var){
         header('Content-Type: application/json');
         echo json_encode($var);
     }
+
+
 }
