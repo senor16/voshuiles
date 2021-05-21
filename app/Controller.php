@@ -50,5 +50,18 @@ abstract class Controller{
         echo json_encode($var);
     }
 
+    //Return a string without accents or space
+    public function setSlug(string $var):string{
+        $search =  ['à','â','é','è','ë','ê','ò','ô','ù','ü','ï','î',' ','ç','À','Â','É','È','Ë','Ê','Ò','Ô','Ù','Ü','Ï','Î',' ','Ç'];
+        $replace = ['a','a','e','e','e','e','o','o','u','u','i','i','-','c','A','A','E','E','E','E','O','O','U','U','I','I','-','C'];
+
+        $str = $var;
+        for($i=0; $i<count($search); $i++){
+            $str = str_replace($search[$i],$replace[$i],$str);
+        }
+        return $str;
+    }
+
+
 
 }
