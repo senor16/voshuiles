@@ -1,6 +1,17 @@
 #We activate URL Rewriting
 RewriteEngine On
 
+#Redirect url to login
+RewriteRule login users/login
+
+#Rewrote url to signup
+RewriteRule signup users/signup
+
+#Rewrote url fto logout
+RewriteRule logout users/logout
+
+
+
 #Rewrite url to process it
 RewriteRule ^([a-zA-Z0-9\-\_\/\?]*)$ index.php?p=$1
 

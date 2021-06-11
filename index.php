@@ -5,13 +5,14 @@ use App\Controllers\HttpErrors;
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 
 $url = $_SERVER['SERVER_ADDR'] == "::1" ? 'localhost' : $_SERVER['SERVER_ADDR'];
-define('ROOT_URL','http://'.$url.'/php/karite/');
+define('ROOT_URL','http://'.$url.'/karite/');
+//define('ROOT_URL','http://'.$url.':8000/');
 
 require_once ROOT."vendor/autoload.php";
 
-
 //Get the url parameters
 $params = $_GET['p'];
+
 
 //Store the parameters in a table
 $params = explode('/',$params);
@@ -24,6 +25,8 @@ $controller = $params[0]!= '' ? ucfirst(strtolower($params[0])):'Home';
 //Path of a controller
 $file = ROOT.'controllers/'.$controller.'.php';
 
+
+
 //Variable used to store whether a 404 error occurred
 $error = false;
 
@@ -31,6 +34,7 @@ $error = false;
 if(file_exists($file)){
     //Get the controller object
     $controller = "App\\Controllers\\".$controller;
+
 
     //Check if the controller class exists
     if(class_exists($controller)){
@@ -51,14 +55,17 @@ if(file_exists($file)){
             call_user_func_array([$controller,$action],$params);
         }else{
             $error = true;
+          echo 1;
         }
 
     }else{
         $error = true;
+      echo 2;
     }
 
 }else{
     $error = true;
+  echo 3;
 }
 
 if($error){
