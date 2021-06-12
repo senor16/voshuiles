@@ -13,6 +13,9 @@ if (isset($message)) {
 }
 ?>
     <form class="form" method="post">
+        <p>
+            Vous avez déja un compte ? <a href="<?=ROOT_URL?>/login">Connecter vous.</a>
+        </p>
         <label for="first_name">Prénom <small>(20 caractères max)</small>:</label><br>
         <?= $message['first_name'] ?? '' ?>
         <input id="first_name" type="text" required name="first_name" value="<?= $fields['first_name'] ?? '' ?>"
@@ -52,6 +55,7 @@ if (isset($message)) {
         <select id="role" class="role" name="role">
             <option value="CLIENT">Acheter</option>
             <option value="PRODUCTEUR">Vendre</option>
+            <option value="PRODUCTEUR">Acheter et Vendre</option>
         </select>
 
 

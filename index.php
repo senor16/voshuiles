@@ -2,6 +2,8 @@
 session_start();
 use App\Controllers\HttpErrors;
 
+
+
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 
 $url = $_SERVER['SERVER_ADDR'] == "::1" ? 'localhost' : $_SERVER['SERVER_ADDR'];

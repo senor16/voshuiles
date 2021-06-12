@@ -24,6 +24,16 @@ class Users extends \App\Controller
         $result['message'] = [];
         $user = new User();
         $title = "Inscription";
+
+        //Redirect the user to the home page if he is already logged in
+        if (isset($_SESSION['auth'])) {
+            $_SESSION['flash']['message'] = 'Bienvenu '.$_SESSION['auth']->prenom.'.';
+            $_SESSION['flash']['type'] = 'success';
+            header('Location: ' . ROOT_URL);
+            exit();
+        }
+
+
         if (isset($_POST['tel'])) {
             $fields = $_POST;
 
@@ -127,8 +137,11 @@ class Users extends \App\Controller
                 if (!$result['error']) {
                     $fields['password'] = password_hash($fields['password'], PASSWORD_BCRYPT);
                     $req = $user->signup($fields);
-                    if ($req)
-                        $result['message']['info'] = "Inscription réussite";
+                    if ($req) {
+                        $_SESSION['flash']['message'] = "Inscription réussite";
+                        $_SESSION['flash']['type']='success';
+                        header("Location: ".ROOT_URL."/login");
+                    }
                     else {
                         $result['error'] = true;
                         $result['message']['info'] = "Une erreur s'est produite. Veuiller réessayer.";
@@ -161,6 +174,7 @@ class Users extends \App\Controller
 
         //Get the flash message then delete it
         $flash = '';
+
         if (isset($_SESSION['flash'])) {
             $flash = $_SESSION['flash'];
             unset($_SESSION['flash']);
@@ -168,9 +182,10 @@ class Users extends \App\Controller
 
         //Redirect the user to the home page if he is already logged in
         if (isset($_SESSION['auth'])) {
+            $_SESSION['flash']['message'] = 'Bienvenu '.$_SESSION['auth']->prenom.'.';
+            $_SESSION['flash']['type'] = 'success';
             header('Location: ' . ROOT_URL);
             exit();
-
         }
 
         //Check if the user has filled the fields
@@ -206,8 +221,9 @@ class Users extends \App\Controller
 
                             setcookie('remember', $auth->id . '-' . $fields['remember'] . sha1($auth->id . 'projetlicence3'), time() + 60 * 60 * 24 * 7);
                         }
-                        $result['message'] = 'Connexion réussie.';
-                        header('Location: '.ROOT_URL);
+                        $_SESSION['flash']['message'] = 'Bienvenu '.$auth->prenom.'.';
+                        $_SESSION['flash']['type'] = 'success';
+                        header('Location: ' . ROOT_URL);
                         exit();
 
 
@@ -229,31 +245,31 @@ class Users extends \App\Controller
             if ($token[1] === $auth->remember_token . sha1($token[0] . 'projetlicence3')) {
                 $_SESSION['auth'] = $auth;
                 setcookie('remember', $token[0] . '-' . $token[1], time() + 60 * 60 * 24 * 7);
-                header('Location: '.ROOT_URL);
+                $_SESSION['flash']['message'] = 'Bienvenu '.$auth->prenom.'.';
+                $_SESSION['flash']['type'] = 'success';
+                header('Location: ' . ROOT_URL);
                 exit();
-                $result['message'] = 'Connexion réussie.';
-                $this->render('login', compact('title', 'result'));
             }
-        }else{
+        } else {
 
-                //Show the result in a json
-                //$this->showJSon($result);
-                $this->render('login', compact('title'));
+            $this->render('login', compact('title', 'flash'));
 
-            }
+        }
 
     }
 
     /*
     Function to log out the user
 */
-    public function logout(){
-        setcookie('remember',NULL);
+    public function logout()
+    {
+        setcookie('remember', NULL);
         unset($_SESSION['auth']);
-        header('Location: '.ROOT_URL.'login');
+        header('Location: ' . ROOT_URL . 'login');
         exit();
 
     }
+
     public function settings(string $action, array $fields = [])
     {
         $result['error'] = false;
@@ -360,71 +376,34 @@ class Users extends \App\Controller
         $this->showJSon($result);
     }
 
-    /**
-     * Function to test the user actions
-     * @param string $action
-     */
-    public
-    function test(string $action)
-    {
+    //Restore user credentials
+    public function restore(){
+        $title = "Réinitialiser le mot de passe";
+        $result = [];
+        $result['error']=false;
+        $fields=[];
+        $error = new Errors();
+        $user = new User();
+        if(isset($_POST['tel'])){
+            $fields=$_POST;
 
-        switch ($action) {
-            case "signup":
-                //Required
-                $fields['email'] = "hello@th.com";
-                $fields['gender'] = "male";
-                $fields['birth_date'] = "31-03-2001";
-                $fields['password'] = "aqwedede";
-                $fields['password_confirm'] = "aqwedede";
+            if(!$this->checkEmail($fields['tel']) && !$this->checkPhoneNumber($fields['tel']) ){
+                $result['error']=true;
 
-                //Optional
-                $fields['first_name'] = "John";
-                $fields['last_name'] = "Smith";
-                $fields['town'] = "Garoua";
-                $fields['tel'] = "698142207";
-                $fields['avatar'] = "hello-kitty.here.png";
-                $this->signup($fields);
-                break;
-            case "login":
-                $fields['email'] = 'hello@hello.com';
-                $fields['password'] = 'titi';
-                $this->login($fields);
-                break;
+                $result['message']['info']="Une erreur s'est produite";
+                $result['message']['tel']=$error->showError("Veuiller entrer un email ou un numéro valide");
+            }else{
+                $auth = $user->login($fields);
+                if($auth) {
+                    $result['message']['info'] = "Nous vous avons envoyé un lien pour restaurer votre mot de passe";
+                }else{
+                    $result['error']=true;
+                    $result['message']['info']="Une erreur s'est produite";
+                    $result['message']['tel']=$error->showError("Il n'existe aucun compte avec cet email/numero");
+                }
+            }
         }
 
-    }
-
-    /*
-     * Test settings
-     */
-    public
-    function tests($action)
-    {
-        $fields = [];
-        switch ($action) {
-            case "profile":
-                $fields['email'] = "hello@th.com";
-                $fields['gender'] = "male";
-                $fields['birth_date'] = "31-03-2001";
-
-                $fields['first_name'] = "John";
-                $fields['last_name'] = "Smith";
-                $fields['town'] = "Garoua";
-                $fields['tel'] = "698142207";
-                $fields['avatar'] = "hello-kitty.here.png";
-                break;
-
-            case "account":
-                $fields['password'] = 'kalitori';
-                break;
-
-            case "password":
-                $fields['password'] = "aqwedede";
-                $fields['new_password'] = "aqwede";
-                $fields['password_confirm'] = "aqwede";
-                break;
-
-        }
-        $this->settings($action, $fields);
+        $this->render('restore',compact('title','result','fields'));
     }
 }

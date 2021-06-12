@@ -7,8 +7,13 @@ RewriteRule login users/login
 #Rewrote url to signup
 RewriteRule signup users/signup
 
-#Rewrote url fto logout
+#Rewrote url to logout
 RewriteRule logout users/logout
+
+#Rewrote url to restore credentials
+RewriteRule restore users/restore
+
+
 
 
 

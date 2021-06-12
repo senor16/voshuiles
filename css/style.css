@@ -100,6 +100,7 @@ body{
   margin:0;
 	font-family:  Verdana,sans-serif;
 	font-size:1em;
+	color: #403e3e;
 }
 
 h1, h2{
@@ -144,6 +145,7 @@ input[type=text],input[type=date],input[type=tel],input[type=email],input[type=p
 .gender,.role{
 	display:block;
   	width:90%;
+	background:none;
 }
 
 
@@ -151,7 +153,7 @@ input[type=text],input[type=date],input[type=tel],input[type=email],input[type=p
 .del-add,.menu li a{
 	min-width:25%;
 	padding:5px 7px;
-	margin-top:40px;
+	margin-top:20px;
 	margin-right:20px;
 }
 
@@ -178,7 +180,7 @@ input[type=text],input[type=date],input[type=tel],input[type=email],input[type=p
 	background-color:white;
 	border : 1px solid #0000e33b;
 	border-radius:3px;
-	padding: 3px 10px;
+	padding: 5px 10px;
 	font-size:initial;
 	cursor:pointer;
 	font-weight: normal;
@@ -206,7 +208,7 @@ img{
 	affichage d'erreur
 */
 .error, .field-error{
-	border : 2px solid tomato !important;
+	/*border : 2px solid tomato !important;*/
 }
 
 .error{
@@ -217,14 +219,14 @@ img{
 	color:black;
 }
 
-.page-error, .form-error, .error{
+.page-error, .form-error, .error, .danger{
 	color:tomato;
 }
 
 
 
 .success{
-	border:2px solid #4edb4e;
+	/*border:2px solid #4edb4e;*/
 	color:#4edb4e;
 }
 
@@ -240,6 +242,53 @@ img{
 	background-color:#c0e5f1;
 }
 
+/* Show products */
+.products{
+  	width:100%;
+	display:grid;
+	grid-template-columns: repeat(4,1fr);
+	column-gap:5px;
+	row-gap:5px;
+  text-align:center;
+}
+
+.product{
+	border-radius:5px;
+	padding:0.5em;
+  border:1px solid #eaeaec;
+  margin: -1px 5px 3px -1px;
+    padding:10px;
+  background-color:#efefef;
+
+}
+
+/* Images*/
+img,video{
+  max-width:100%;
+}
+input[type=radio]{
+	width: auto;
+}
+
+/*Tables	*/
+table{
+	display: block;
+	text-align: center;
+	border-collapse:collapse ;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+td,th{
+	border:1px solid #ada8a8;
+	text-align: center;
+	height: 30px;
+	padding: 0 10px;
+}
+
+th{
+	background-color: #efefef;
+}
 
 @media only screen and (max-width: 640px) {
 	body{
@@ -284,9 +333,18 @@ img{
     margin-bottom:5px;
   }
 
+  .add-to-card{
+	font-size:inherit;
+  }
 	h2 .button{
 		border: 1px solid blue;
 		font-size:.7em;
+	}
+
+
+	/* Show products */
+	.products{
+		grid-template-columns: repeat(2,1fr);
 	}
 
 }

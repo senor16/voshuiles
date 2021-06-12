@@ -9,7 +9,7 @@ use App\Controller;
  * Use to handle actions about products
  * @package App\Controllers
  */
-class Product extends Controller{
+class Products extends Controller{
     private array $qualities = ['blanc', 'noir'];
     private array $conditioning = ['litre','carton'];
 
@@ -129,6 +129,8 @@ class Product extends Controller{
 
     }
 
+
+
     /**
      * Function to test user actions about product
      * @param string $action
@@ -155,4 +157,3 @@ class Product extends Controller{
 
 
 }
-

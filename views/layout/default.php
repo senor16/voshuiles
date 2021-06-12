@@ -18,5 +18,11 @@
 <?php
     require_once ROOT."views/layout/footer.php";
 ?>
+<?=$script?>
+<?php
+if(isset($scriptFile)){
+    ?>
+<script src="<?=ROOT_URL?>js/<?=$scriptFile?>"></script>
+<?php }?>
 </body>
 </html>
