@@ -31,7 +31,8 @@ if (empty($_SESSION['cart'])) {
                 <td><?= $i ?></td>
                 <td><?= $product['designation'] ?></td>
                 <td><?= $product['qualite'] ?></td>
-                <td><a href="<?= ROOT_URL ?>panier/modifyquantity/<?= $product['id'] ?>/down" class="button">-</a>
+                <td><a class="button  <?php if($product['quantite']==1) echo ' disabled'?>"
+                       href="<?= ROOT_URL ?>panier/modifyquantity/<?= $product['id'] ?>/down">-</a>
                     <?= $product['quantite'] ?>
                     <a href="<?= ROOT_URL ?>panier/modifyquantity/<?= $product['id'] ?>/up" class="button">+</a></td>
                 <td style="text-align: right;"><?= $product['prix'] ?> </td>
@@ -45,10 +46,15 @@ if (empty($_SESSION['cart'])) {
             <td colspan="4"><b>Total</b></td>
             <td colspan="3"><b><?= $totlal ?> FCFA</b></td>
         </tr>
-        </table>
-        <p>
-            <a class="button" href="<?=ROOT_URL?>panier/confirmer">Confirmer l'achat</a>
-        </p>
+        </table><br>
+        <form action="<?=ROOT_URL?>panier/confirmer" method="post">
+            <label for="ville">Ville de livraison</label>
+            <input type="text" name="ville" required id="ville" placeholder="Ex: Maroua">
+
+            <input type="submit" value="Confirmer l'achat" name="confirmer" class="button">
+        </form>
+<br>
+
         <?php
     }
 }

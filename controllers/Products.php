@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controller;
+use App\Models\Product;
 
 /**
  * Class Product
@@ -129,30 +130,16 @@ class Products extends Controller{
 
     }
 
-
-
-    /**
-     * Function to test user actions about product
-     * @param string $action
-     */
-    public function test(string $action){
-        switch($action){
-            case "add":
-                $fields['quality']="blanc";
-                $fields['conditioning']="litre";
-                $fields['description']="Très bon produit. Beurre de karité.";
-                $fields['price']=400;
-                $this->add($fields);
-                break;
-            case "update":
-                $fields['quality']="blanc";
-                $fields['conditioning']="litre";
-                $fields['description']="Très bon produit. Beurre de karité.";
-                $fields['price']='400f';
-                $this->update($fields);
-                break;
-        }
+  //Search a product
+  public function search($q){
+    $title= $q." - Resultat recherche";
+    $product = new Product();
+    $products =[];
+    if(!strlen(trim($q))<1){
+    $products= $product->search($q);
     }
+    $this->render('search',compact('title','products','q'));
+  }
 
 
 

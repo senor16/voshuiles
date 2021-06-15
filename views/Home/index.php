@@ -21,7 +21,8 @@ if (isset($flash) && $flash != '') {
                 <div class="product">
                     <img src="<?= ROOT_URL ?>images/<?= $product->image ?>" class="image-responsive"
                          alt="product image">
-                    <h5 class=product-name><?= $product->designation ?></h5>
+                    <h5 class=product-name><?= $product->designation ?>
+                  <?=$product->qualite?></h5>
                     <h5 class="product-price"><?= $product->prix ?> FCFA</h5>
                     <input type="hidden" name="hidden-designation" value="<?= $product->designation ?>">
                     <input type="hidden" name="hidden-prix" value="<?= $product->prix ?>">

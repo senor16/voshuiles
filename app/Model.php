@@ -11,8 +11,8 @@ abstract class Model
     private string $dbname = "projet";
     private string $host = "localhost";
     private string $username = "root";
-//    private string $password = "";
-    private string $password = "dedma16";
+    private string $password = "";
+   // private string $password = "dedma16";
 
     //Tables
     public string $table;
@@ -58,7 +58,7 @@ abstract class Model
     public function getAll()
     {
         try {
-            $sql = "SELECT * FROM " . $this->table;
+            $sql = "SELECT * FROM " . $this->table." ORDER BY id ASC";
             $query = $this->connexion->prepare($sql);
             $query->execute();
             return $query->fetchAll();
@@ -87,7 +87,7 @@ abstract class Model
     {
         try {
             $sql = "SELECT * FROM " . $this->table;
-            $sql = $sql . " WHERE p_title LIKE ('%" . $q . "%') OR p_content LIKE ('%" . $q . "%')";
+            $sql = $sql . " WHERE designation LIKE ('%" . $q . "%')";
             $query = $this->connexion->prepare($sql);
             $query->execute();
             return $query->fetchAll();
