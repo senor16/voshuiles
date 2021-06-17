@@ -11,8 +11,8 @@ abstract class Model
     private string $dbname = "projet";
     private string $host = "localhost";
     private string $username = "root";
-    private string $password = "";
-   // private string $password = "dedma16";
+//    private string $password = "";
+    private string $password = "dedma16";
 
     //Tables
     public string $table;
@@ -29,9 +29,9 @@ abstract class Model
         try {
             $query->execute(['tel' => $fields['tel']]);
             $user = $query->fetch();
-            if (!empty($fields['remember']) && $client->a_id) {
-                $q = $this->connexion->prepare("UPDATE {$this->table} SET remember = :remember WHERE id = {$auth->id}");
-                $q->execute(['remember' => $fields['remember']]);
+            if (!empty($fields['remember_token']) && $user->id) {
+                $q = $this->connexion->prepare("UPDATE {$this->table} SET remember = :remember WHERE id = {$user->id}");
+                $q->execute(['remember' => $fields['remember_token']]);
             }
             return $user;
         } catch (PDOException $exception) {
@@ -58,7 +58,7 @@ abstract class Model
     public function getAll()
     {
         try {
-            $sql = "SELECT * FROM " . $this->table." ORDER BY id ASC";
+            $sql = "SELECT * FROM " . $this->table." ORDER BY id DESC";
             $query = $this->connexion->prepare($sql);
             $query->execute();
             return $query->fetchAll();
@@ -99,10 +99,10 @@ abstract class Model
     /*
         Delete an record by his id
     */
-    public function del($id)
+    public function delete($id)
     {
         try {
-            $sql = "DELETE FROM " . $this->table . " WHERE p_id=" . $id;
+            $sql = "DELETE FROM " . $this->table . " WHERE id=" . $id;
             $query = $this->connexion->prepare($sql);
             $query->execute();
             return true;

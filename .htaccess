@@ -2,17 +2,27 @@
 RewriteEngine On
 
 #Redirect url to login
-RewriteRule login users/login
+RewriteRule ^login$ users/login
 
-#Rewrote url to signup
-RewriteRule signup users/signup
+#Rewrite url to signup
+RewriteRule ^signup$ users/signup
 
-#Rewrote url to logout
-RewriteRule logout users/logout
+#Rewrite url to logout
+RewriteRule ^logout$ users/logout
 
-#Rewrote url to restore credentials
-RewriteRule restore users/restore
+#Rewrite url to restore credentials
+RewriteRule ^restore$ users/restore
 
+
+#Rewrite url to manage products
+RewriteRule ^ajouter$ products/ajouter
+RewriteRule ^modifier$ products/modifier
+RewriteRule ^console$ products/console
+
+
+#Rewrite url to access settings
+RewriteRule ^settings$ users/settings
+RewriteRule ^settings/(.*)$ users/settings/$1
 
 
 #Rewrite url for searches

@@ -5,7 +5,20 @@ use \DateTime;
 
 
 abstract class Controller{
-    protected array $result;
+
+
+    //Function to redirect the user
+    public function redirect(){
+        if(isset($_SESSION['from'])){
+            $u = ROOT_URL . $_SESSION['from'];
+            header('Location: '.$u);
+            unset($_SESSION['from']);
+        }else {
+            header('Location: ' . ROOT_URL);
+        }
+
+    }
+
 
     //Function used the render pages
     public function render(string $file,array $args=[]){
@@ -120,6 +133,18 @@ abstract class Controller{
         return !(empty($town) || ! preg_match("/^[a-zA-Zéè ïëçàêâôöòó\-]+$/", $town) ||
             strlen($town) > 20);
     }
+
+    /**
+     * Check the value of a text field
+     * return true if valid, false if not
+     * @param string $text
+     * @return bool
+     */
+    public function checkText(string $text):bool{
+        return !(empty($text) || ! preg_match("/^[a-zA-Zéè ïëçàêâôöòó\-]+$/", $text));
+    }
+
+
 
     /**
      * Check the validity of an email address

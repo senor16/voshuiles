@@ -19,29 +19,33 @@ if (isset($message)) {
         <label for="first_name">Prénom <small>(20 caractères max)</small>:</label><br>
         <?= $message['first_name'] ?? '' ?>
         <input id="first_name" type="text" required name="first_name" value="<?= $fields['first_name'] ?? '' ?>"
-               placeholder="Ex: Michée">
+               placeholder="Ex: Michée" class="<?=isset($message['first_name']) ? 'field-error' : '' ?>">
         <br>
         <label for="last_name">Nom <small>(30 caractères max)</label><br>
         <?= $message['last_name'] ?? '' ?>
         <input id="last_name" type="text" required name="last_name"
-               value="<?= $fields['last_name'] ?? $auth->a_last_name ?>" placeholder="Ex: Sesso Kosga Bamokaï">
+               value="<?= $fields['last_name'] ?? '' ?>" placeholder="Ex: Sesso Kosga Bamokaï"
+               class="<?=isset($message['last_name']) ? 'field-error' : '' ?>">
         <br>
 
         <label for="email">Email:</label><br>
         <?= $message['email'] ?? '' ?>
         <input id="email" type="email" required name="email" value="<?= $fields['email'] ?? '' ?>"
-               placeholder="Ex: senor16@gmail.com">
+               placeholder="Ex: senor16@gmail.com"
+               class="<?=isset($message['email']) ? 'field-error' : '' ?>">
         <br>
 
         <label for="tel">Tel:</label><br>
         <?= $message['tel'] ?? '' ?>
-        <input id="tel" type="tel" required name="tel" value="<?= $fields['tel'] ?? '' ?>" placeholder="Ex: 698765435">
+        <input id="tel" type="tel" required name="tel" value="<?= $fields['tel'] ?? '' ?>" placeholder="Ex: 698765435"
+               class="<?=isset($message['tel']) ? 'field-error' : '' ?>">
         <br>
 
         <label for="birth_date">Date de naissance :</label></br>
         <?= $message['birth_date'] ?? '' ?>
         <input id="birth_date" type="date" required name="birth_date"
-               value="<?= $fields['birth_date'] ?? '1990-01-01' ?>">
+               value="<?= $fields['birth_date'] ?? '1990-01-01' ?>"
+               class="<?=isset($message['birth_date']) ? 'field-error' : '' ?>">
         <br>
 
 
@@ -62,17 +66,20 @@ if (isset($message)) {
 
         <label for="town">Votre ville:</label><br>
         <?= $message['town'] ?? '' ?>
-        <input id="town" type="text" required name="town" value="<?= $fields['town'] ?? '' ?>" placeholder="Ex: Maroua"><br>
+        <input id="town" type="text" required name="town" value="<?= $fields['town'] ?? '' ?>" placeholder="Ex: Maroua"
+               class="<?=isset($message['town']) ? 'field-error' : '' ?>"><br>
 
 
 
-        <label for="password">Mot de passe <small>(4 caratères min)</small>:</label><br>
+        <label for="password">Mot de passe <small>(6 caratères min)</small>:</label><br>
         <?= $message['password'] ?? '' ?>
-        <input id="password" type="password" required name="password" placeholder="votremotdepasse">
+        <input id="password" type="password" required name="password" placeholder="votremotdepasse"
+               class="<?=isset($message['password']) ? 'field-error' : '' ?>">
         <br>
         <label for="password_confirm">Confirmer le mot de passr:</label><br>
         <?= $message['password_confirm'] ?? '' ?>
-        <input type="password" id="password_confirm" required name="password_confirm" placeholder="votremotdepasse">
+        <input type="password" id="password_confirm" required name="password_confirm" placeholder="votremotdepasse"
+               class="<?=isset($message['password_confirm']) ? 'field-error' : '' ?>">
         <br>
 
 

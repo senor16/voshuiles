@@ -1,6 +1,6 @@
 <?php
 ob_start();
-//var_dump($_SESSION['flash']);
+require_once ROOT . 'views/layout/functions.php';
 if (isset($flash) && $flash != '') {
     if ($flash['type'] != 'error') {
         ?>
@@ -10,30 +10,38 @@ if (isset($flash) && $flash != '') {
         echo '
         <div class="alert error"></h3>' . $flash['message'] . '</h3></div>';
     }
-}
-?>
+} ?>
 
-    <div class="products">
-        <?php
-        foreach ($products as $product) {
-            ?>
-            <form method="post" action="<?= ROOT_URL ?>panier/add/<?= $product->id ?>">
-                <div class="product">
-                    <img src="<?= ROOT_URL ?>images/<?= $product->image ?>" class="image-responsive"
-                         alt="product image">
-                    <h5 class=product-name><?= $product->designation ?>
-                  <?=$product->qualite?></h5>
-                    <h5 class="product-price"><?= $product->prix ?> FCFA</h5>
-                    <input type="hidden" name="hidden-designation" value="<?= $product->designation ?>">
-                    <input type="hidden" name="hidden-prix" value="<?= $product->prix ?>">
-                    <input type="hidden" name="hidden-qualite" value="<?= $product->qualite ?>">
-                    <input type="submit" name="add" class="button add-to-card" value="Ajouter au panier">
-                </div>
-            </form>
-            <?php
-        }
-        ?>
+
+    <h2>Nouveautés</h2>
+<?php showProducts($products, 'rows'); ?>
+
+    <h2>Promotion</h2>
+<?php showProducts($products, 'rows'); ?>
+
+    <h2>Blog</h2>
+    <div class="articles">
+
+        <div class="article">
+            <img src="<?= ROOT_URL ?>images/huile-de-palme.jpg" alt="">
+            <h4>Les bienfaits de l'huile de palme</h4>
+        </div>
+        <div class="article">
+            <img src="<?= ROOT_URL ?>images/neem.jpeg" alt="">
+            <h4>Les bienfaits de l'huile de neem</h4>
+        </div>
+        <div class="article">
+            <img src="<?= ROOT_URL ?>images/karite.jpg" alt="">
+            <h4>Les bienfaits du beurre de karité</h4>
+        </div>
+        <div class="article">
+            <img src="<?= ROOT_URL ?>images/huile-de-sesame.jpg" alt="">
+            <h4>Les bienfaits de l'huile de sésame</h4>
+        </div>
+
+
+
     </div>
-
 <?php
 $content = ob_get_clean();
+$scriptFile = 'home.js';

@@ -113,6 +113,7 @@ class Panier extends \App\Controller
         } else {
             $_SESSION['flash']['message'] = "Veuiller vous connecter";
             $_SESSION['flash']['type'] = "error";
+            $_SESSION['from']=str_replace('p=','',$_SERVER['QUERY_STRING']);
             header("Location: " . ROOT_URL . "login");
         }
         $scriptFile = 'confirmer.js';

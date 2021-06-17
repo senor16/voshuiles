@@ -18,7 +18,6 @@ class Home extends Controller{
         }
 
     	$products = $product->getAll();
-
         $this->render('index',compact('title','products','flash'));
     }
 }

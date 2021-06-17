@@ -6,9 +6,7 @@ echo '<h2 class="center">' . $title . '</h2>';
 if (isset($result)) extract($result);
 
 if (isset($message)) {
-    if (!$error) {
-        echo '<h3 class="form-success">' . $message . '</h3>';
-    } else {
+    if ($error) {
         echo '<h3 class="form-error">' . $message . '</h3>';
     }
 } else {

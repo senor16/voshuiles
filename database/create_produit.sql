@@ -5,6 +5,7 @@ CREATE TABLE product(
   qualite VARCHAR(20),
   producteur INTEGER NOT NULL,
   quantite INTEGER,
+  description VARCHAR(255),
   image VARCHAR(255),
   created_at DATETIME DEFAULT NOW(),
   updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,

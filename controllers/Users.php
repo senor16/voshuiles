@@ -27,7 +27,7 @@ class Users extends \App\Controller
 
         //Redirect the user to the home page if he is already logged in
         if (isset($_SESSION['auth'])) {
-            $_SESSION['flash']['message'] = 'Bienvenu '.$_SESSION['auth']->prenom.'.';
+            $_SESSION['flash']['message'] = 'Bienvenu ' . $_SESSION['auth']->prenom . '.';
             $_SESSION['flash']['type'] = 'success';
             header('Location: ' . ROOT_URL);
             exit();
@@ -36,6 +36,10 @@ class Users extends \App\Controller
 
         if (isset($_POST['tel'])) {
             $fields = $_POST;
+            //Correct the XSS fault
+            foreach ($fields as $key => $field) {
+                $fields[$key] = htmlspecialchars($fields[$key]);
+            }
 
             /********************************************************
              *                                                       *
@@ -139,10 +143,14 @@ class Users extends \App\Controller
                     $req = $user->signup($fields);
                     if ($req) {
                         $_SESSION['flash']['message'] = "Inscription réussite";
-                        $_SESSION['flash']['type']='success';
-                        header("Location: ".ROOT_URL."/login");
-                    }
-                    else {
+                        $_SESSION['flash']['type'] = 'success';
+                        if(isset($_SESSION['from'])){
+                            unset($_SESSION['from']);
+                            header('Location: '.ROOT_URL . $_SESSION['from']);
+                        }else {
+                            header('Location: ' . ROOT_URL);
+                        }
+                    } else {
                         $result['error'] = true;
                         $result['message']['info'] = "Une erreur s'est produite. Veuiller réessayer.";
                     }
@@ -182,15 +190,19 @@ class Users extends \App\Controller
 
         //Redirect the user to the home page if he is already logged in
         if (isset($_SESSION['auth'])) {
-            $_SESSION['flash']['message'] = 'Bienvenu '.$_SESSION['auth']->prenom.'.';
+            $_SESSION['flash']['message'] = 'Bienvenu ' . $_SESSION['auth']->prenom . '.';
             $_SESSION['flash']['type'] = 'success';
-            header('Location: ' . ROOT_URL);
+            $this->redirect();
             exit();
         }
 
         //Check if the user has filled the fields
         if (isset($_POST['tel'])) {
             $fields = $_POST;
+            //Correct the XSS fault
+            foreach ($fields as $key => $field) {
+                $fields[$key] = htmlspecialchars($fields[$key]);
+            }
 
             /**
              * Check the validity of the credentials
@@ -208,22 +220,21 @@ class Users extends \App\Controller
             }
 
             if (!$result['error']) {
+                if (isset($fields['remember'])) {
+                    $fields['remember_token'] = $this->str_random(250);
+                }
                 $auth = $user->login($fields);
-
                 if ($auth) {
                     if (password_verify($fields['password'], $auth->password)) {
+
+                        $_SESSION['auth'] = $auth;
                         //Generate remember token
                         if (isset($fields['remember'])) {
-                            $fields['remember'] = $this->str_random(250);
-
-
-                            $_SESSION['auth'] = $auth;
-
-                            setcookie('remember', $auth->id . '-' . $fields['remember'] . sha1($auth->id . 'projetlicence3'), time() + 60 * 60 * 24 * 7);
+                            setcookie('remember_token', $auth->id . '-' . $fields['remember_token'] . sha1($auth->id . 'projetlicence3'), time() + 60 * 60 * 24 * 7);
                         }
-                        $_SESSION['flash']['message'] = 'Bienvenu '.$auth->prenom.'.';
+                        $_SESSION['flash']['message'] = 'Bienvenu ' . $auth->prenom . '.';
                         $_SESSION['flash']['type'] = 'success';
-                        header('Location: ' . ROOT_URL);
+                        $this->redirect();
                         exit();
 
 
@@ -238,16 +249,17 @@ class Users extends \App\Controller
                 }
                 $this->render('login', compact('title', 'result'));
             }
-        } elseif (isset($_COOKIE['remember'])) {
-            $token = explode('-', $_COOKIE['remember']);
+        } elseif (isset($_COOKIE['remember_token'])) {
+            $token = explode('-', $_COOKIE['remember_token']);
             $auth = $user->getOne($token[0]);
 
-            if ($token[1] === $auth->remember_token . sha1($token[0] . 'projetlicence3')) {
+            if ($token[1] === $auth->remember . sha1($token[0] . 'projetlicence3')) {
                 $_SESSION['auth'] = $auth;
+
                 setcookie('remember', $token[0] . '-' . $token[1], time() + 60 * 60 * 24 * 7);
-                $_SESSION['flash']['message'] = 'Bienvenu '.$auth->prenom.'.';
+                $_SESSION['flash']['message'] = 'Bienvenu ' . $auth->prenom . '.';
                 $_SESSION['flash']['type'] = 'success';
-                header('Location: ' . ROOT_URL);
+                $this->redirect();
                 exit();
             }
         } else {
@@ -263,147 +275,166 @@ class Users extends \App\Controller
 */
     public function logout()
     {
-        setcookie('remember', NULL);
+        setcookie('remember_token', NULL);
         unset($_SESSION['auth']);
+        unset($_SESSION['flash']);
         header('Location: ' . ROOT_URL . 'login');
         exit();
 
     }
 
-    public function settings(string $action, array $fields = [])
+    public function settings(string $action = "main")
     {
-        $result['error'] = false;
-        $result['message'] = [];
+        //Redirect the user to the login page if he is not logged
+        if (!isset($_SESSION['auth'])) {
+            $_SESSION['flash']['message'] = "Veuiller vous connecter";
+            $_SESSION['flash']['type'] = "error";
+            $_SESSION['from']=str_replace('p=','',$_SERVER['QUERY_STRING']);
+            header("Location: " . ROOT_URL . "login");
+        } else {
+            $auth = $_SESSION['auth'];
+            $title = "Paramètres";
+            $result['error'] = false;
+            $result['message'] = [];
+            $fields = [];
 
-        //Perform the right action
-        switch ($action) {
-            case "profile":
-
-                //Check last name
-                if (isset($fields['last_name']) && !$this->checkLastName($fields['last_name'])) {
-                    $result['error'] = true;
-                    $result['message']['last_name'] = 'Veuillez un nom valide';
+            if (isset($_POST['submit'])) {
+                //Correct the XSS fault
+                foreach ($fields as $key => $field) {
+                    $fields[$key] = htmlspecialchars($fields[$key]);
                 }
+                //Perform the right action
+                switch ($action) {
+                    case "profil":
 
-                //Check first name
-                if (isset($fields['first_name']) && !$this->checkFirstName($fields['first_name'])) {
-                    $result['error'] = true;
-                    $result['message']['first_name'] = "Veuillez entrer un prénom valide";
-                }
+                        //Check last name
+                        if (isset($fields['last_name']) && !$this->checkLastName($fields['last_name'])) {
+                            $result['error'] = true;
+                            $result['message']['last_name'] = 'Veuillez un nom valide';
+                        }
 
-                //Check avatar
-                if (isset($fields['avatar']) && !$this->checkAvatar($fields['avatar'])) {
-                    $result['error'] = true;
-                    $result['message']['avatar'] = "Veuillez choisir une image valide (format autorisés : .png .jpg .jpeg .gif).";
-                }
+                        //Check first name
+                        if (isset($fields['first_name']) && !$this->checkFirstName($fields['first_name'])) {
+                            $result['error'] = true;
+                            $result['message']['first_name'] = "Veuillez entrer un prénom valide";
+                        }
 
-                //Check phone number
-                if (isset($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
-                    $result['error'] = true;
-                    $result['message']['tel'] = "Veuillez entrer un numéro valide (9 chiffres).";
-                }
+                        //Check avatar
+                        if (isset($fields['avatar']) && !$this->checkAvatar($fields['avatar'])) {
+                            $result['error'] = true;
+                            $result['message']['avatar'] = "Veuillez choisir une image valide (format autorisés : .png .jpg .jpeg .gif).";
+                        }
 
-                //Check town
-                if (isset($fields['town']) && !$this->checkTown($fields['town'])) {
-                    $result['error'] = true;
-                    $result['message']['town'] = "Veuillez entrer une ville valide.";
-                }
+                        //Check phone number
+                        if (isset($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
+                            $result['error'] = true;
+                            $result['message']['tel'] = "Veuillez entrer un numéro valide (9 chiffres).";
+                        }
 
-                //Check birth date
-                if (isset($fields['birth_date']) && !$this->checkBirthDate($fields['birth_date'])) {
-                    $result['error'] = true;
-                    $result['message']['birth_date'] = "Veuillez entrer une date de naissance valide";
-                }
+                        //Check town
+                        if (isset($fields['town']) && !$this->checkTown($fields['town'])) {
+                            $result['error'] = true;
+                            $result['message']['town'] = "Veuillez entrer une ville valide.";
+                        }
 
-                //Check gender
-                if (isset($fields['gender']) && !$this->checkGender($fields['gender'])) {
-                    $result['error'] = true;
-                    $result['message']['gender'] = "Veuillez choisir un genre valide";
-                }
+                        //Check birth date
+                        if (isset($fields['birth_date']) && !$this->checkBirthDate($fields['birth_date'])) {
+                            $result['error'] = true;
+                            $result['message']['birth_date'] = "Veuillez entrer une date de naissance valide";
+                        }
 
-                //Check email
-                if (isset($fields['email']) && !$this->checkEmail($fields['email'])) {
-                    $result['error'] = true;
-                    $result['message']['email'] = "Veuillez entrer un email valide.";
-                }
+                        //Check gender
+                        if (isset($fields['gender']) && !$this->checkGender($fields['gender'])) {
+                            $result['error'] = true;
+                            $result['message']['gender'] = "Veuillez choisir un genre valide";
+                        }
 
-                if (!$result['error']) {
-                    $result['info'] = "Les modifications ont été enregistrées avecsuccès.";
-                    $result['message']['email'] = "Un email vous a été envoyé pour confirmer votre nouvelle adresse email";
-                    $result['message']['tel'] = "Un sms vous a été envoyé pour confirmer votre nouveau numéro de téléphone";
-                }
+                        //Check email
+                        if (isset($fields['email']) && !$this->checkEmail($fields['email'])) {
+                            $result['error'] = true;
+                            $result['message']['email'] = "Veuillez entrer un email valide.";
+                        }
 
-                break;
+                        if (!$result['error']) {
+                            $result['info'] = "Les modifications ont été enregistrées avecsuccès.";
+                            $result['message']['email'] = "Un email vous a été envoyé pour confirmer votre nouvelle adresse email";
+                            $result['message']['tel'] = "Un sms vous a été envoyé pour confirmer votre nouveau numéro de téléphone";
+                        }
+
+                        break;
 
 
-            case "account":
-                if (!isset($fields['password'])) {
-                    $result['error'] = true;
-                    $result['message']['password'] = "Veuiller entrer votre mot de passe";
-                }
+                    case "delete":
+                        if (!isset($fields['password'])) {
+                            $result['error'] = true;
+                            $result['message']['password'] = "Veuiller entrer votre mot de passe";
+                        }
 
-                if (!$result['error']) {
-                    $result['info'] = "Votre compte a été supprimé";
-                }
+                        if (!$result['error']) {
+                            $result['info'] = "Votre compte a été supprimé";
+                        }
 
-                break;
+                        break;
 
-            case "password":
-                if (!isset($fields['password'])) {
-                    $result['error'] = true;
-                    $result['message']['password'] = "Veuillez entrer votre mot de passe actuel";
-                }
+                    case "password":
+                        if (!isset($fields['password'])) {
+                            $result['error'] = true;
+                            $result['message']['password'] = "Veuillez entrer votre mot de passe actuel";
+                        }
 
-                if (!isset($fields['new_password']) || !$this->checkPassword($fields['new_password'])) {
-                    $result['error'] = true;
-                    $result['message']['new_password'] = "Veuillez entrer un mot de passe valide (6 à 255 caractères).";
-                }
+                        if (!isset($fields['new_password']) || !$this->checkPassword($fields['new_password'])) {
+                            $result['error'] = true;
+                            $result['message']['new_password'] = "Veuillez entrer un mot de passe valide (6 à 255 caractères).";
+                        }
 
-                if (!isset($fields['password_confirm']) || $fields['new_password'] !== $fields['password_confirm']) {
-                    $result['error'] = true;
-                    $result['message']['password_confirm'] = "Les mots de passes ne correspondent pas";
-                }
+                        if (!isset($fields['password_confirm']) || $fields['new_password'] !== $fields['password_confirm']) {
+                            $result['error'] = true;
+                            $result['message']['password_confirm'] = "Les mots de passes ne correspondent pas";
+                        }
 
-                if (!$result['error']) {
-                    $result['info'] = "Votre mot de passe a été modifié avec succès";
-                }
+                        if (!$result['error']) {
+                            $result['info'] = "Votre mot de passe a été modifié avec succès";
+                        }
 
-                break;
+                        break;
 
-        }
-
-        //Show the result in a json
-        $this->showJSon($result);
-    }
-
-    //Restore user credentials
-    public function restore(){
-        $title = "Réinitialiser le mot de passe";
-        $result = [];
-        $result['error']=false;
-        $fields=[];
-        $error = new Errors();
-        $user = new User();
-        if(isset($_POST['tel'])){
-            $fields=$_POST;
-
-            if(!$this->checkEmail($fields['tel']) && !$this->checkPhoneNumber($fields['tel']) ){
-                $result['error']=true;
-
-                $result['message']['info']="Une erreur s'est produite";
-                $result['message']['tel']=$error->showError("Veuiller entrer un email ou un numéro valide");
-            }else{
-                $auth = $user->login($fields);
-                if($auth) {
-                    $result['message']['info'] = "Nous vous avons envoyé un lien pour restaurer votre mot de passe";
-                }else{
-                    $result['error']=true;
-                    $result['message']['info']="Une erreur s'est produite";
-                    $result['message']['tel']=$error->showError("Il n'existe aucun compte avec cet email/numero");
                 }
             }
         }
 
-        $this->render('restore',compact('title','result','fields'));
+        $this->render('settings', compact('title', 'fields', 'action', 'auth', 'result'));
     }
+
+    //Restore user credentials
+    public function restore()
+    {
+        $title = "Réinitialiser le mot de passe";
+        $result = [];
+        $result['error'] = false;
+        $fields = [];
+        $error = new Errors();
+        $user = new User();
+        if (isset($_POST['tel'])) {
+            $fields = $_POST;
+
+            if (!$this->checkEmail($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
+                $result['error'] = true;
+
+                $result['message']['info'] = "Une erreur s'est produite";
+                $result['message']['tel'] = $error->showError("Veuiller entrer un email ou un numéro valide");
+            } else {
+                $auth = $user->login($fields);
+                if ($auth) {
+                    $result['message']['info'] = "Nous vous avons envoyé un lien pour restaurer votre mot de passe";
+                } else {
+                    $result['error'] = true;
+                    $result['message']['info'] = "Une erreur s'est produite";
+                    $result['message']['tel'] = $error->showError("Il n'existe aucun compte avec cet email/numéro");
+                }
+            }
+        }
+
+        $this->render('restore', compact('title', 'result', 'fields'));
+    }
+
 }
