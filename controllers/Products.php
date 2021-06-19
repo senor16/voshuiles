@@ -159,6 +159,7 @@ class Products extends Controller
         $product = $prod->getOne($id);
         if ($product && $product->producteur === $_SESSION['auth']->id) {
             if (isset($_POST['modifier'])) {
+              var_dump($_POST);
                 $fields = $_POST;
                 //Correct the XSS fault
                 foreach ($fields as $key => $field) {
@@ -255,11 +256,11 @@ class Products extends Controller
         if($produit && $_SESSION['auth']->id === $produit->producteur){
 
             if($prod->delete($id)){
-                echo '<script>alert("Produit supprimé avec succèss");</script>';
+                $_SESSION['flash']['alert']="Produit supprimé avec succèss";
             }else{
-                echo '<script>alert("Une erreur s\'est produite");</script>';
+                $_SESSION['flash']['alert']="Une erreur s\'est produite";
             }
-            echo '<script>window.location="' . ROOT_URL . 'console";</script>';
+            header('Location: ' . ROOT_URL . 'console');
 
         }else{
             (new HttpErrors)->notFound();
@@ -292,12 +293,33 @@ class Products extends Controller
                 exit();
             }
         }
+         $flash="";
+      if(isset($_SESSION['flash']['alert'])){
+        $flash = $_SESSION['flash']['alert'];
+        unset($_SESSION['flash']);
+      }
         $_SESSION['from']=str_replace('p=','',$_SERVER['QUERY_STRING']);
         $owner = $_SESSION['auth'];
         $title="Tableau de bord";
         $prod = new Product();
         $products = $prod->getProductsOf($owner->id);
-        $this->render('console',compact('title','products'));
+        $this->render('console',compact('title','products','flash'));
     }
 
+	public function details($id){
+      $product = new Product();
+      $product = $product->getOne($id);
+      if($product){
+         $flash="";
+      if(isset($_SESSION['flash']['alert'])){
+        $flash = $_SESSION['flash']['alert'];
+        unset($_SESSION['flash']);
+      }
+        $title=$product->designation;
+		$this->render('details',compact('title','product','flash'));
+      }else{
+        (new HttpErrors())->notFound();
+
+      }
+    }
 }

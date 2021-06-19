@@ -4,7 +4,7 @@ extract($results);
 ?>
     <h2  class="center"><?= $title ?></h2>
 <?php
-if (isset($message)) {
+if (isset($message['info'])) {
     if (!$error) {
         echo '<h3 class="form-success">' . $message['info'] . '</h3>';
     } else {

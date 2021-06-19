@@ -95,7 +95,7 @@ abstract class Controller{
      * @return bool
      */
     public function checkFirstName(string $first_name):bool{
-        return !(empty($first_name) || ! preg_match("/^[a-zA-Zéèïëçêâàôöòó\-]+$/", $first_name) ||
+        return !(empty($first_name) || ! preg_match("/^[a-zA-Zéèïëçêâàô'\"öòó\-]+$/", $first_name) ||
             strlen($first_name) > 20);
     }
 
@@ -107,7 +107,7 @@ abstract class Controller{
      * @return bool
      */
     public function checkLastName(string $last_name):bool{
-        return !(empty($last_name) || !preg_match("/^[a-zA-Zéèïëçàêâôöòó\- ]+$/", $last_name) || strlen($last_name) > 30);
+        return !(empty($last_name) || !preg_match("/^[a-zA-Zéèïëçàê'\"âôöòó\- ]+$/", $last_name) || strlen($last_name) > 30);
     }
 
 
@@ -130,7 +130,7 @@ abstract class Controller{
      * @return bool
      */
     public function checkTown(string $town):bool{
-        return !(empty($town) || ! preg_match("/^[a-zA-Zéè ïëçàêâôöòó\-]+$/", $town) ||
+        return !(empty($town) || ! preg_match("/^[a-zA-Zéè ïëçà'\"êâôöòó\-]+$/", $town) ||
             strlen($town) > 20);
     }
 
@@ -141,7 +141,7 @@ abstract class Controller{
      * @return bool
      */
     public function checkText(string $text):bool{
-        return !(empty($text) || ! preg_match("/^[a-zA-Zéè ïëçàêâôöòó\-]+$/", $text));
+        return !(empty($text) || ! preg_match("/^[a-zA-Zéè ïëçàêâ'\"ôöòó\-]+$/", $text));
     }
 
 

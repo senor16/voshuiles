@@ -18,6 +18,7 @@ RewriteRule ^restore$ users/restore
 RewriteRule ^ajouter$ products/ajouter
 RewriteRule ^modifier$ products/modifier
 RewriteRule ^console$ products/console
+RewriteRule ^details/(.*)$ products/details/$1
 
 
 #Rewrite url to access settings

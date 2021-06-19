@@ -50,7 +50,7 @@ header {
 
 .q-search {
     padding: 8px;
-    width:80%;
+    width: 80%;
     border-radius: 3px;
     background: #fff;
     border: 2px solid #dadada;
@@ -77,11 +77,11 @@ header {
 	Body
 */
 
-h3, .center {
+.center {
     text-align: center;
 }
 
-h5{
+h5 {
     margin: 5px;
 }
 
@@ -105,13 +105,13 @@ h5{
     margin: auto;
 }
 
-*{
+* {
     font-family: Verdana, sans-serif;
 }
 
 body {
     margin: 0;
-    font-size: 100%;
+
     color: #191919;
 }
 
@@ -152,7 +152,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     background-color: white;
 }
 
-input[type=text],input[type=number], input[type=date], input[type=tel], input[type=email], input[type=password], textarea {
+input[type=text], input[type=number], input[type=date], input[type=tel], input[type=email], input[type=password], textarea {
     width: 90%;
 }
 
@@ -161,8 +161,6 @@ input[type=text],input[type=number], input[type=date], input[type=tel], input[ty
     width: 90%;
     background: none;
 }
-
-
 
 
 .del-add {
@@ -179,7 +177,7 @@ input[type=text],input[type=number], input[type=date], input[type=tel], input[ty
     font-weight: bold;
 }
 
-.del-add:hover, .btn-search:hover, .menu li a:hover,.svg {
+.del-add:hover, .btn-search:hover, .menu li a:hover, .svg {
     /*color: blue;*/
     cursor: pointer;
 }
@@ -207,7 +205,6 @@ input[type=text],input[type=number], input[type=date], input[type=tel], input[ty
 .disabled {
     pointer-events: none;
     color: #403e3e;
-    border: 1px solid #403e3e;
 
 }
 
@@ -215,9 +212,6 @@ input[type=text],input[type=number], input[type=date], input[type=tel], input[ty
     border: 1px solid #403e3e;
 }
 
-img {
-    max-width: 100%;
-}
 
 .svg, input[type=checkbox] {
     vertical-align: middle;
@@ -229,7 +223,7 @@ img {
 	affichage d'erreur
 */
 .field-error {
-    border : 2px solid tomato !important;
+    border: 2px solid tomato !important;
 }
 
 .error {
@@ -272,77 +266,72 @@ img {
     font-size: 14px;
 }
 
-.articles{
+.articles {
     grid-template-columns: repeat(2, 1fr);
 }
 
+.articles img{
+    max-width: 100%;
+}
 
-.rows{
+
+.rows {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
 }
 
-.next, .previous{
+.next, .previous {
     white-space: nowrap;
     position: relative;
-    top:150px;
+    top: 150px;
 }
 
-.previous{
-    left:-25px;
+.previous {
+    left: -25px;
 }
 
-.next{
+.next {
     left: calc(100% - 45px);
 }
 
 
-
 .product-row {
-   /* margin: -1px 5px 3px -1px;*/
+    /* margin: -1px 5px 3px -1px;*/
     margin: 5px;
-    width: 250px;
     display: inline-block;
-    text-align: center  ;
-    max-height: 250px;
-    overflow: auto;
+    text-align: center;
+
 }
 
 .product {
     flex: 0 0 auto;
-   /* margin: -1px 5px 3px -1px;*/
+    /* margin: -1px 5px 3px -1px;*/
     margin: 5px;
     width: 250px;
     display: inline-block;
-    text-align: center  ;
+    text-align: center;
     max-height: 250px;
     overflow: auto;
 }
 
-.editable{
+.editable {
     border: 1px solid #dadada;
     padding: 5px;
     border-radius: 5px;
 }
 
 .product img, .product-row img {
-    max-width: 100px;
+
 }
 
-.article{
-   /* background-color: #efefef;
-    border: 1px solid #eaeaec;
-    margin: -1px 5px 3px -1px;*/
+.article {
+    /* background-color: #efefef;
+     border: 1px solid #eaeaec;
+     margin: -1px 5px 3px -1px;*/
     padding: 10px;
 }
 
-
-
-/* Images*/
-img, video {
-    max-width: 100%;
-}
 
 input[type=radio] {
     width: auto;
@@ -364,11 +353,13 @@ td, th {
     padding: 0 10px;
 }
 
+td a {
+    color: blue;
+}
+
 th {
     background-color: #efefef;
 }
-
-
 
 
 /*
@@ -389,48 +380,56 @@ footer a {
     color: #A1ACAC;
 }
 
-footer li{
+footer li {
 
 }
 
-nav ul{
+nav ul {
     display: inline-block;
 }
 
-nav ul li{
+nav ul li {
     list-style-type: none;
     padding: 5px;
 }
+
 nav {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
-nav h3{
-text-align: initial;
+nav h3 {
+    text-align: initial;
 }
 
 /*Small screen*/
 @media only screen and (max-width: 640px) {
-    .btn-search{
+    .btn-search {
         position: relative;
         left: -30px;
     }
 
-    .articles{
+    body {
+        font-size: 12px;
+    }
+
+    .articles {
         grid-template-columns: repeat(1, 1fr);
     }
-  nav{
-    display:grid;
-    grid-template-columns:1fr;
-  }
+
+
+
+    nav {
+        display: grid;
+        grid-template-columns:1fr;
+    }
 
 
     .container {
         max-width: 90%;
     }
 
-    .next , .previous{
+    .next, .previous {
         display: none;
     }
 
@@ -443,7 +442,6 @@ text-align: initial;
     .menu li a {
         font-weight: bold;
     }
-
 
 
     select, input {
@@ -478,12 +476,13 @@ text-align: initial;
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .product{
-        width: 110px;
+    .product-row, .products {
+        /*width: 33.3333%;*/
     }
 
-  .product img{
-
-  }
+    .product img, .product-row img {
+        width: 120px !important;
+        /*height: 120px;*/
+    }
 
 }

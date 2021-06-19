@@ -9,7 +9,12 @@ class Panier extends \App\Controller
     public function index()
     {
         $title = "Panier";
-        $this->render('index', compact('title'));
+      $flash="";
+      if(isset($_SESSION['flash']['alert'])){
+        $flash = $_SESSION['flash']['alert'];
+        unset($_SESSION['flash']);
+      }
+        $this->render('index', compact('title','flash'));
     }
 
     //Add a product to a cart
@@ -29,9 +34,11 @@ class Panier extends \App\Controller
                         'quantite' => 1
                     );
                     array_push($_SESSION['cart'], $item_array);
-                    echo '<script>alert("Le produit a été ajouté dans le panier");</script>';
+
+                                    $_SESSION['flash']['alert']="Le produit a été ajouté dans le panier";
+
                 } else {
-                    echo '<script>alert("Ce produit est déja dans le panier");</script>';
+                  $_SESSION['flash']['alert']="Ce produit est déja dans le panier";
                 }
             } else {
                 $_SESSION['cart'][0] = array(
@@ -42,7 +49,7 @@ class Panier extends \App\Controller
                     'quantite' => 1
                 );
             }
-            echo '<script>window.location="' . ROOT_URL . '";</script>';
+            header('Location:' . ROOT_URL . 'details/'.$id);
         }
     }
 
@@ -61,7 +68,7 @@ class Panier extends \App\Controller
                 }
             }
         }
-        echo '<script>window.location="' . ROOT_URL . 'panier";</script>';
+        header('Location:'. ROOT_URL . 'panier');
     }
 
     //Delete a product from the cart
@@ -72,11 +79,11 @@ class Panier extends \App\Controller
             foreach ($_SESSION['cart'] as $key => $product) {
                 if ($product['id'] == $id) {
                     unset($_SESSION['cart'][$key]);
-                    echo '<script>alert("Le produit a été retiré du panier");</script>';
+                        $_SESSION['flash']['alert']='Le produit a été retiré du panier';
                 }
             }
         }
-        echo '<script>window.location="' . ROOT_URL . 'panier";</script>';
+        header('Location: ' . ROOT_URL . 'panier');
     }
 
     //Confirm and purchase products

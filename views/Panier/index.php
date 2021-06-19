@@ -58,5 +58,8 @@ if (empty($_SESSION['cart'])) {
         <?php
     }
 }
+if(!empty($flash)){
+  echo '<script>alert("'.$flash.'");</script>';
+}
 
 $content = ob_get_clean();

@@ -62,17 +62,14 @@ if(file_exists($file)){
             call_user_func_array([$controller,$action],$params);
         }else{
             $error = true;
-          echo 1;
         }
 
     }else{
         $error = true;
-      echo 2;
     }
 
 }else{
     $error = true;
-  echo 3;
 }
 
 if($error){
