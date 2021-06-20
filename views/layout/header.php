@@ -1,7 +1,7 @@
 <header>
-    <h1><a href="<?=ROOT_URL?>">Manyanga</a></h1>
+    <h1><a href="<?=ROOT_URL?>">iHerb</a></h1>
 <?php
-			if(isset($_SESSION['auth'])):
+			/*if(isset($_SESSION['auth'])):
 		?>
 			<ul class="menu">
 				<li><a href="<?=ROOT_URL.'logout'?>">Se deconnecter</a></li>
@@ -14,7 +14,7 @@
 				<li><a href="<?=ROOT_URL.'login'?>">Se connecter</a></li>
 			</ul>
 		<?php
-			endif;
+			endif;*/
 		?>
 
 <form class="form-search" method="get" action="<?=ROOT_URL?>products/search">

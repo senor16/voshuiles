@@ -25,6 +25,8 @@ RewriteRule ^details/(.*)$ products/details/$1
 RewriteRule ^settings$ users/settings
 RewriteRule ^settings/(.*)$ users/settings/$1
 
+#Rewrite url for articles
+RewriteRule ^articles/(.*)$ articles/show/$1
 
 #Rewrite url for searches
 RewriteCond %{QUERY_STRING} ^q=(.*)$

@@ -6,9 +6,9 @@ extract($results);
 <?php
 if (isset($message['info'])) {
     if (!$error) {
-        echo '<h3 class="form-success">' . $message['info'] . '</h3>';
+        echo '<h3 class="form-success center">' . $message['info'] . '</h3>';
     } else {
-        echo '<h3 class="form-error">' . $message['info'] . '</h3>';
+        echo '<h3 class="form-error center">' . $message['info'] . '</h3>';
     }
 }
 ?>
@@ -23,7 +23,7 @@ if (isset($message['info'])) {
         <br>
         <label for="quality">Qualité :</label><br>
         <?= $message['quality'] ?? '' ?>
-        <input id="quality" type="text" required name="quality"
+        <input id="quality" type="text" name="quality"
                value="<?= $fields['quality'] ?? '' ?>"
                class="<?= isset($message['quality']) ? 'field-error' : '' ?>">
         <br>

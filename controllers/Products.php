@@ -29,7 +29,7 @@ class Products extends Controller
      */
     public function checkDescription(string $description): bool
     {
-        return ($this->checkText($description) && strlen($description) >= 5);
+        return (strlen($description) >= 5);
     }
 
     /**
@@ -60,14 +60,11 @@ class Products extends Controller
             $fields = $_POST;
 
 
-            if (!isset($fields['designation']) || !$this->checkText($fields['designation'])) {
+            if (!isset($fields['designation']) || strlen($fields['designation'])<2) {
                 $results['error'] = true;
                 $results['message']['designation'] = $error->showError("Veuillez entrer une valeur valide");
             }
-            if (!isset($fields['quality']) || !$this->checkText($fields['quality'])) {
-                $results['error'] = true;
-                $results['message']['quality'] = $error->showError("Veuillez entrer une valeur valide");
-            }
+
 
             if (!isset($_FILES['image']) || !$this->checkImage($_FILES['image']['name'])) {
                 $results['error'] = true;
@@ -119,8 +116,9 @@ class Products extends Controller
                 $name = $name . '.' . $fileinfo['extension'];
 
 
-                if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/' . $name)) {
+                if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/uploads' . $name)) {
                     $fields['image'] = $name;
+                  str_replace("[enter]","\n",$fields['description']);
                     $id = $prod->add($fields);
                     if ($id) {
                         $results['message']['info'] = "Produit ajouté avec succès";
@@ -159,16 +157,12 @@ class Products extends Controller
         $product = $prod->getOne($id);
         if ($product && $product->producteur === $_SESSION['auth']->id) {
             if (isset($_POST['modifier'])) {
-              var_dump($_POST);
                 $fields = $_POST;
                 //Correct the XSS fault
                 foreach ($fields as $key => $field) {
                     $fields[$key] = htmlspecialchars($fields[$key]);
                 }
-                if (isset($fields['quality']) && !$this->checkText($fields['quality'])) {
-                    $results['error'] = true;
-                    $results['message']['quality'] = $error->showError("Veuillez entrer une valeur valide");
-                }
+
 
                 if (!isset($fields['description']) || !$this->checkDescription($fields['description'])) {
                     $results['error'] = true;
@@ -204,6 +198,7 @@ class Products extends Controller
                     $prod = new Product();
                     //Save the changes
                     $fields['id']=$id;
+                  str_replace("[enter]","\n",$fields['description']);
                     if ($prod->update($fields)) {
                         $results['message']['info'] = "Les modifications ont été enregistrées";
                         $product = $prod->getOne($id);
@@ -216,7 +211,7 @@ class Products extends Controller
                         $name = $name . '.' . $fileinfo['extension'];
 
 
-                        if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/' . $name)) {
+                        if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/uploads' . $name)) {
                             $fields['image'] = $name;
                             $id = $prod->updateImage($name,$id);
                             if ($id) {

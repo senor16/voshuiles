@@ -1,3 +1,13 @@
+
+html {
+    font-size: 14px;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 /*
 	Header
 */
@@ -50,10 +60,10 @@ header {
 
 .q-search {
     padding: 8px;
-    width: 80%;
+    width: 90%;
     border-radius: 3px;
     background: #fff;
-    border: 2px solid #dadada;
+    border: 2px solid #fff;
     padding-right: 40px;
 }
 
@@ -76,6 +86,7 @@ header {
 /*
 	Body
 */
+
 
 .center {
     text-align: center;
@@ -100,27 +111,24 @@ h5 {
 }
 
 .container {
-    min-height: 300px;
-    max-width: 80%;
+    max-width: 90%;
     margin: auto;
 }
 
-* {
-    font-family: Verdana, sans-serif;
-}
 
 body {
     margin: 0;
-
+    background-color: #fafafa;
     color: #191919;
+    font-family: Verdana, sans-serif;
+    line-height: 1.42857;
+    font-weight: 400;
 }
 
-h1, h2 {
-    /*color: blue;*/
-}
+
 
 h1 {
-
+margin:0;
 }
 
 h1 a {
@@ -132,16 +140,21 @@ h1 a {
     list-style-type: none;
 }
 
-.settings li a {
+.settings li a, .article a{
     text-decoration: none;
     color: black;
     display: block;
 }
 
-.settings li a:hover {
+.settings li a:hover, .article a:hover {
     text-decoration: underline;
 }
 
+.doc-menu-summary a
+{
+      text-decoration: none;
+
+}
 
 input[type=text], input[type=number], input[type=date], input[type=tel], input[type=email], input[type=password], select, textarea {
     border-radius: 3px;
@@ -186,21 +199,36 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 .button {
     display: inline-block;
     text-decoration: none;
-    /*color: blue;*/
     background-color: white;
-    /*border: 1px solid #0000e33b;*/
-    border-radius: 3px;
-    padding: 5px 10px;
-    font-size: initial;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
     cursor: pointer;
-    /* pointer-events:none;*/
-    font-weight: normal;
+    box-shadow: none;
 }
 
-.button:hover {
-    /*border: 1px solid blue;*/
+.product-details img {
+    display: block;
+    width: 300px;
+    margin: auto;
 }
 
+
+.add-to-card:hover {
+    border-color: #b66700;
+    background-color: #c06d00;
+    background-repeat: repeat-x;
+}
+
+.add-to-card {
+    color: #fff;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #ef7000;
+
+
+}
 
 .disabled {
     pointer-events: none;
@@ -235,7 +263,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 .page-error, .form-error, .error, .danger {
-    color: tomato;
+    color: tomato !important;
 }
 
 
@@ -260,60 +288,77 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 .products, .articles {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 5px;
-    row-gap: 5px;
+    column-gap: 10px;
+    row-gap: 10px;
     text-align: center;
     font-size: 14px;
 }
+
+.products a, .rows a {
+    color: blue;
+    text-decoration: none;
+}
+
 
 .articles {
     grid-template-columns: repeat(2, 1fr);
 }
 
-.articles img{
+.articles img, .article-details img {
     max-width: 100%;
 }
 
+.article-details {
+  background-color:#fff;
+}
 
 .rows {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 
 .next, .previous {
+    width: 20px;
+    fill: #4a8807;
+    border-radius: 50%;
     white-space: nowrap;
     position: relative;
-    top: 150px;
+    top: -150px;
 }
 
+
 .previous {
-    left: -25px;
+    left: -35px;
 }
 
 .next {
-    left: calc(100% - 45px);
+    left: calc(100% - 18px);
 }
 
-
-.product-row {
-    /* margin: -1px 5px 3px -1px;*/
-    margin: 5px;
-    display: inline-block;
-    text-align: center;
-
-}
 
 .product {
-    flex: 0 0 auto;
-    /* margin: -1px 5px 3px -1px;*/
-    margin: 5px;
-    width: 250px;
     display: inline-block;
     text-align: center;
-    max-height: 250px;
     overflow: auto;
 }
+
+.product-price {
+    color: #4a8807;
+    display: block;
+}
+
+.product-row {
+    width: 16%;
+    padding: 20px 15px;
+    margin-right: 10px;
+    border-radius: 3px;
+    flex: 0 0 auto;
+    display: inline-block;
+    text-align: center;
+    background-color: #fff;
+}
+
 
 .editable {
     border: 1px solid #dadada;
@@ -322,14 +367,21 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 .product img, .product-row img {
+    width: 120px;
+    height: 120px;
+    vertical-align: top;
+    max-width: 100%;
+}
 
+
+p {
+    background-color: #fff;
+  text-align:justify;
 }
 
 .article {
-    /* background-color: #efefef;
-     border: 1px solid #eaeaec;
-     margin: -1px 5px 3px -1px;*/
     padding: 10px;
+    background-color: #fff;
 }
 
 
@@ -409,14 +461,10 @@ nav h3 {
         left: -30px;
     }
 
-    body {
-        font-size: 12px;
-    }
 
     .articles {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
-
 
 
     nav {
@@ -424,10 +472,6 @@ nav h3 {
         grid-template-columns:1fr;
     }
 
-
-    .container {
-        max-width: 90%;
-    }
 
     .next, .previous {
         display: none;
@@ -437,6 +481,7 @@ nav h3 {
         grid-template-areas:
 		"logo menu"
 		"search";
+        background-color: #f5f5f5;
     }
 
     .menu li a {
@@ -476,13 +521,28 @@ nav h3 {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .product-row, .products {
-        /*width: 33.3333%;*/
+    .product-row {
+        width: 120px;
+      padding:5px;
+    }
+
+    .rows {
+        overflow-x: scroll;
     }
 
     .product img, .product-row img {
-        width: 120px !important;
-        /*height: 120px;*/
+        width: 60px;
+        margin: 5px;
+      max-height:80px;
+    }
+
+    .image-responsive {
+        width: 80%;
+    }
+
+    .container {
+        max-width: 90%;
+        margin: auto;
     }
 
 }

@@ -7,17 +7,17 @@ if (isset($result)) extract($result);
 
 if (isset($message)) {
     if ($error) {
-        echo '<h3 class="form-error">' . $message . '</h3>';
+        echo '<h3 class="form-error center">' . $message . '</h3>';
     }
 } else {
     if (isset($flash) && $flash != '') {
         if ($flash['type'] != 'error') {
             ?>
-            <div class="alert success"><h3><?= $flash['message'] ?></h3></div>
+            <div class="alert success center"><h3><?= $flash['message'] ?></h3></div>
             <?php
         } else {
             echo '
-        <div class="alert error"></h3>' . $flash['message'] . '</h3></div>';
+        <div class="alert error center"></h3>' . $flash['message'] . '</h3></div>';
         }
     }
 }

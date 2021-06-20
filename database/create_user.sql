@@ -18,3 +18,5 @@ CREATE TABLE user (
   CONSTRAINT
     un_tel UNIQUE (tel)
 );
+
+

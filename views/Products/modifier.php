@@ -6,9 +6,9 @@ extract($results);
 <?php
 if (isset($message['info'])) {
     if (!$error) {
-        echo '<h3 class="form-success">' . $message['info'] . '</h3>';
+        echo '<h3 class="form-success center">' . $message['info'] . '</h3>';
     } else {
-        echo '<h3 class="form-error">' . $message['info'] . '</h3>';
+        echo '<h3 class="center form-error">' . $message['info'] . '</h3>';
     }
 }
 ?>
@@ -22,7 +22,7 @@ if (isset($message['info'])) {
         <br>
         <label for="quality">Qualité :</label><br>
         <?= $message['quality'] ?? '' ?>
-        <input id="quality" type="text" required name="quality"
+        <input id="quality" type="text"  name="quality"
                value="<?= $fields['quality'] ?? $product->qualite ?>"
                class="<?= isset($message['quality']) ? 'field-error' : '' ?>">
         <br>
@@ -47,14 +47,14 @@ if (isset($message['info'])) {
 
 
             <label for="image">Image:</label><br>
-        <img src="<?=ROOT_URL?>images/<?=$product->image?>" alt="Image du produit"><br>
+        <img class="image-responsive" src="<?=ROOT_URL?>images/uploads/<?=$product->image?>" alt="Image du produit"><br>
             <?= $message['image'] ?? '' ?><br>
             <input id="image" type="file"  name="image"
                    class="<?= isset($message['image ']) ? 'field-error' : '' ?>">
             <br>
             <br>
 
-            <button type="reset" class="del-add">Restaurer</button>
+            <input type="reset" class="del-add" value="Restaurer">
             <input class="del-add" type="submit" required name="modifier" value="Enregistrer">
 
     </form>

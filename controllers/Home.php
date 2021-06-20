@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Controller;
 use App\Models\Product;
+use App\Models\Article;
 
 class Home extends Controller{
 
@@ -9,6 +10,7 @@ class Home extends Controller{
     public function index(){
         $title="Accueil";
       	$product = new Product();
+      $articles = new Article();
 
         //Get the flash message then delete it
         $flash = '';
@@ -18,6 +20,7 @@ class Home extends Controller{
         }
 
     	$products = $product->getAll();
-        $this->render('index',compact('title','products','flash'));
+    	$articles = $articles->getAll();
+        $this->render('index',compact('title','products','articles','flash'));
     }
 }

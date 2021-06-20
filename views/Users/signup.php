@@ -5,10 +5,10 @@ echo '<h2 class="center">' . $title . '</h2>';
 if (isset($result)) extract($result);
 if (isset($message)) {
     if (!$error) {
-        echo '<h3 class="form-success">' . $message['info'] . '</h3>';
+        echo '<h3 class="center form-success">' . $message['info'] . '</h3>';
         if (isset($link)) echo '<p>Un email vous a été envoyé pour confirmer votre adresse email</p>';
     } else {
-        echo '<h3 class="form-error">' . $message['info'] . '</h3>';
+        echo '<h3 class="center form-error">' . $message['info'] . '</h3>';
     }
 }
 ?>

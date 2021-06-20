@@ -1,6 +1,7 @@
-# Karite
-A website to get informations and buy 'Beurre de Karité'
+# iHerb
+A websiteto get educated about natural vegetables oils and buy some.
 
-By *Sesso Kosga*  
-pseudo : *senor16*  
-email: *kosgasesso@gmail.com*
+By :
+
+- Sesso Kosga
+- Koulmen Gael

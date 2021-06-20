@@ -7,12 +7,12 @@ for (let i = 0; i < previous.length; i++) {
     previous[i].onclick = function (event) {
         let scollAmount = 0;
         var slidetimer = setInterval(function () {
-            docs[i].scrollLeft -= 10;
-            scollAmount += 10;
-            if (scollAmount >= 300) {
+            docs[i].scrollLeft -= 15;
+            scollAmount += 15;
+            if (scollAmount >= window.innerWidth) {
                 window.clearInterval(slidetimer);
             }
-        }, 15);
+        }, 5);
     }
 
 
@@ -23,12 +23,12 @@ for (let i = 0; i < next.length; i++) {
     next[i].onclick = function (event) {
         let scollAmount = 0;
         var slidetimer = setInterval(function () {
-            docs[i].scrollLeft += 10;
-            scollAmount += 10;
-            if (scollAmount >= 300) {
+            docs[i].scrollLeft += 15;
+            scollAmount += 15;
+            if (scollAmount >= window.innerWidth) {
                 window.clearInterval(slidetimer);
             }
-        }, 15);
+        }, 5);
     }
 
 }
