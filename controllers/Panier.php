@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Commande;
+
 class Panier extends \App\Controller
 {
 
@@ -9,12 +11,12 @@ class Panier extends \App\Controller
     public function index()
     {
         $title = "Panier";
-      $flash="";
-      if(isset($_SESSION['flash']['alert'])){
-        $flash = $_SESSION['flash']['alert'];
-        unset($_SESSION['flash']);
-      }
-        $this->render('index', compact('title','flash'));
+        $flash = "";
+        if (isset($_SESSION['flash']['alert'])) {
+            $flash = $_SESSION['flash']['alert'];
+            unset($_SESSION['flash']);
+        }
+        $this->render('index', compact('title', 'flash'));
     }
 
     //Add a product to a cart
@@ -35,10 +37,10 @@ class Panier extends \App\Controller
                     );
                     array_push($_SESSION['cart'], $item_array);
 
-                                    $_SESSION['flash']['alert']="Le produit a été ajouté dans le panier";
+                    $_SESSION['flash']['alert'] = "Le produit a été ajouté dans le panier";
 
                 } else {
-                  $_SESSION['flash']['alert']="Ce produit est déja dans le panier";
+                    $_SESSION['flash']['alert'] = "Ce produit est déja dans le panier";
                 }
             } else {
                 $_SESSION['cart'][0] = array(
@@ -49,7 +51,7 @@ class Panier extends \App\Controller
                     'quantite' => 1
                 );
             }
-            header('Location:' . ROOT_URL . 'details/'.$id);
+            header('Location:' . ROOT_URL . 'details/' . $id);
         }
     }
 
@@ -68,7 +70,7 @@ class Panier extends \App\Controller
                 }
             }
         }
-        header('Location:'. ROOT_URL . 'panier');
+        header('Location:' . ROOT_URL . 'panier');
     }
 
     //Delete a product from the cart
@@ -79,7 +81,7 @@ class Panier extends \App\Controller
             foreach ($_SESSION['cart'] as $key => $product) {
                 if ($product['id'] == $id) {
                     unset($_SESSION['cart'][$key]);
-                        $_SESSION['flash']['alert']='Le produit a été retiré du panier';
+                    $_SESSION['flash']['alert'] = 'Le produit a été retiré du panier';
                 }
             }
         }
@@ -94,34 +96,56 @@ class Panier extends \App\Controller
         $result = [];
         $result['error'] = false;
         $error = new Errors();
+        if (isset($_POST['ville'])) {
+            $_SESSION['ville'] = htmlspecialchars($_POST['ville']);
+        }
         if (isset($_SESSION['auth'])) {
 
-            if (isset($_POST['payer'])) {
-                $fields = $_POST;
-                if($fields['mode-paiement']!='visa') {
-                    if (isset($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
-                        $result['error'] = true;
-                        $result['message']['info'] = 'Une erreur s\'est produite';
-                        $result['message']['tel'] = $error->showError("Veuiller entrer un numero valide");
+            if(!empty($_SESSION['cart'])) {
+                if (isset($_POST['payer'])) {
+                    $fields = $_POST;
+                    if ($fields['mode-paiement'] != 'visa') {
+                        if (isset($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
+                            $result['error'] = true;
+                            $result['message']['info'] = 'Une erreur s\'est produite';
+                            $result['message']['tel'] = $error->showError("Veuiller entrer un numero valide");
+                        }
+                    } else {
+                        if ((isset($fields['numero']) && strlen($fields['numero']) < 1) ||
+                            (isset($fields['date']) && strlen($fields['date']) < 1) ||
+                            (isset($fields['cvc']) && strlen($fields['cvc']) < 1)) {
+                            $result['error'] = true;
+                            $result['message']['info'] = 'Veuillez remplir tous les champs';
+                        }
                     }
-                }else {
-                    if ((isset($fields['numero']) && strlen($fields['numero']) < 1) ||
-                        (isset($fields['date']) && strlen($fields['date']) < 1) ||
-                        (isset($fields['cvc']) && strlen($fields['cvc']) < 1)) {
-                        $result['error'] = true;
-                        $result['message']['info'] = 'Veuillez remplir tous les champs';
+                    if (!$result['error']) {
+                        if (!empty($_SESSION['cart'])) {
+                            $commande = new Commande();
+                            foreach ($_SESSION['cart'] as $key => $product) {
+
+                                $id = $commande->add($_SESSION['auth']->id, $product['id'], $product['quantite'], $_SESSION['ville']);
+                                if ($id) {
+                                    unset($_SESSION['cart'][$key]);
+                                }
+                            }
+                        }
+                        $result['message']['info'] = "Paiement effectu'e avec succèss. Merci pour votre confiance.";
                     }
                 }
-                if (!$result['error']) {
-                    $result['message']['info'] = "Paiement effectu'e avec succèss. Merci pour votre confiance.";
-                }
+            }else{
+                $_SESSION['flash']['message'] = "Il n'y a aucun produit dans le panier";
+                $_SESSION['flash']['type'] = "error";
+                $_SESSION['from'] = str_replace('p=', '', $_SERVER['QUERY_STRING']);
+                header("Location: " . ROOT_URL);
+                exit();
             }
 
         } else {
             $_SESSION['flash']['message'] = "Veuiller vous connecter";
             $_SESSION['flash']['type'] = "error";
-            $_SESSION['from']=str_replace('p=','',$_SERVER['QUERY_STRING']);
+            $_SESSION['from'] = str_replace('p=', '', $_SERVER['QUERY_STRING']);
             header("Location: " . ROOT_URL . "login");
+            exit();
         }
         $scriptFile = 'confirmer.js';
 

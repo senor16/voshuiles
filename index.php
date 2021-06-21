@@ -1,12 +1,9 @@
 <?php
 session_start();
 use App\Controllers\HttpErrors;
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-//if(sys_get_temp_dir() != "/home/senor16/tmp"){
-//    putenv('TMPDIR=/home/senor16/tmp');
-//}
-//
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
+
 
 
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));

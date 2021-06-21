@@ -5,7 +5,7 @@ ob_start();
     <h3>Informations de paiement :</h3>
 <?php
 extract($result);
-if (isset($message)) {
+if (isset($message['info'])) {
     if (!$error) {
         echo '<h3 class="form-success">' . $message['info'] . '</h3>';
     } else {

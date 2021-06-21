@@ -51,7 +51,7 @@ if (empty($_SESSION['cart'])) {
             <label for="ville">Ville de livraison</label>
             <input type="text" name="ville" required id="ville" placeholder="Ex: Maroua">
 
-            <input type="submit" value="Confirmer l'achat" name="confirmer" class="button">
+            <input type="submit" value="Confirmer l'achat" name="confirmer" class="del-add">
         </form>
 <br>
 
