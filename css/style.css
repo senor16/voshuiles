@@ -6,25 +6,48 @@ html {
 
 * {
     box-sizing: border-box;
+      font-family: Verdana, sans-serif;
+
 }
 
 /*
 	Header
 */
 header {
-    padding: 10px 0;
-    display: grid;
-    grid-template-areas:
-	"logo  menu"
-    "search search";
+    height: 100px;
+    background-color: #293847;
+    margin-bottom: 30px;
+}
+
+header a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.actions {
+    display: table-cell;
+    /*margin-right: 10px;*/
+}
+
+.top {
+    width: 100%;
+    padding-top: 10px;
+}
+
+.actions a{
+    display: table-cell;
+}
+
+.actions a img{
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .logo {
-    grid-area: logo;
     margin: 0;
-    margin-top: 0;
-    /*color: blue;*/
-    max-width: 100%;
+    display: table-cell;
+    padding-left: 20px;
+    color: #fff;
 }
 
 .logo a {
@@ -32,18 +55,12 @@ header {
 }
 
 .logo a:visited {
-    /*color: blue;*/
 }
 
 .form-search {
-    margin-top: 5px;
-    grid-area: search;
-    height: 35px;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 10px;
-    column-gap: 10px;
+    width: 89%;
     text-align: center;
+    display: table-cell;
 }
 
 .btn-search {
@@ -63,23 +80,47 @@ header {
     width: 90%;
     border-radius: 3px;
     background: #fff;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     padding-right: 40px;
 }
 
-.menu {
-    grid-area: menu;
+
+.menu ul{
+    height: 36px;
 }
 
 .menu li {
     list-style-type: none;
     display: inline-block;
+    height: 100%;
+      margin-right: 15px;
+
 }
 
 .menu li a {
-    text-decoration: none;
-    margin-right: 0 !important;
-    color: black;
+    display: inline-block;
+    font-size: 18px;
+    padding: 10px 20px;
+
+    text-transform: uppercase;
+}
+
+
+.active{
+    background-color: #efefef;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.active a{
+    color:#293847;
+    font-weight: bold;
+}
+
+
+.label{
+    margin: 0;
+    margin-top: -70px;
 }
 
 
@@ -111,36 +152,33 @@ h5 {
 }
 
 .container {
-    max-width: 90%;
+    max-width: 95%;
     margin: auto;
 }
 
 
 body {
     margin: 0;
-    background-color: #fafafa;
+    background-color: #efefef;
     color: #191919;
-    font-family: Verdana, sans-serif;
     line-height: 1.42857;
     font-weight: 400;
 }
 
 
-
 h1 {
-margin:0;
+    margin: 0;
 }
 
-h1 a {
-    text-decoration: none;
-    color: inherit;
+.mobile-menu{
+  display:none;
 }
 
 .settings li {
     list-style-type: none;
 }
 
-.settings li a, .article a{
+.settings li a, .article a {
     text-decoration: none;
     color: black;
     display: block;
@@ -150,18 +188,17 @@ h1 a {
     text-decoration: underline;
 }
 
-.doc-menu-summary a
-{
-      text-decoration: none;
+.doc-menu-summary a {
+    text-decoration: none;
 
 }
 
-input[type=text], input[type=number], input[type=date], input[type=tel], input[type=email], input[type=password], select, textarea {
+input[type=text], input[type=number], input[type=date], input[type=tel], input[type=email], input[type=password], select {
     border-radius: 3px;
     padding: 4px;
     margin-bottom: 10px;
-    border: 2px solid #dadada;
-    min-height: 20px;
+    border: 1px solid #dadada;
+    height: 35px;
     background-color: white;
 }
 
@@ -183,15 +220,14 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     margin-right: 20px;
 }
 
-.del-add, .menu li a {
+.del-add {
     background-color: #fff;
-    border: 2px solid #dadada;
+    border: 1px solid #dadada;
     border-radius: 3px;
     font-weight: bold;
 }
 
 .del-add:hover, .btn-search:hover, .menu li a:hover, .svg {
-    /*color: blue;*/
     cursor: pointer;
 }
 
@@ -199,7 +235,6 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 .button {
     display: inline-block;
     text-decoration: none;
-    background-color: white;
     border-radius: 5px;
     border: none;
     padding: 10px;
@@ -251,7 +286,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 	affichage d'erreur
 */
 .field-error {
-    border: 2px solid tomato !important;
+    border: 1px solid tomato !important;
 }
 
 .error {
@@ -285,9 +320,9 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 /* Show products */
-.products, .articles {
+.products, .articles, .blog {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     column-gap: 10px;
     row-gap: 10px;
     text-align: center;
@@ -295,22 +330,19 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 .products a, .rows a {
-    color: blue;
     text-decoration: none;
 }
 
 
-.articles {
+.articles, .blog {
     grid-template-columns: repeat(2, 1fr);
 }
 
-.articles img, .article-details img {
+.article img, .article-details img {
     max-width: 100%;
 }
 
-.article-details {
-  background-color:#fff;
-}
+
 
 .rows {
     display: flex;
@@ -319,13 +351,30 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 .next, .previous {
-    width: 20px;
-    fill: #4a8807;
-    border-radius: 50%;
+    display: inline-block;
+    width: 45px;
+    height: 90px;
     white-space: nowrap;
     position: relative;
     top: -150px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+    border:1px solid #efefef;
+    box-shadow: 1px 0 4px 0 rgba(0,0,0,.2);
 }
+
+.next img, .previous img {
+
+    margin-top: 31px;
+    display: inline-block;
+}
+
+.next img:hover, .previous img:hover {
+    cursor: pointer;
+}
+
 
 
 .previous {
@@ -333,7 +382,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 }
 
 .next {
-    left: calc(100% - 18px);
+    left: calc(100% - 60px);
 }
 
 
@@ -345,20 +394,24 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 
 .product-price {
     color: #4a8807;
+    font-weight: bold;
     display: block;
+  font-size:20px;
 }
 
 .product-row {
     width: 16%;
     padding: 20px 15px;
     margin-right: 10px;
-    border-radius: 3px;
     flex: 0 0 auto;
     display: inline-block;
     text-align: center;
-    background-color: #fff;
+
 }
 
+ .image-responsive {
+        max-width: 300px;
+    }
 
 .editable {
     border: 1px solid #dadada;
@@ -373,10 +426,16 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     max-width: 100%;
 }
 
+.product, .product-row {
+
+    background-color: #fff;
+
+
+}
+
 
 p {
-    background-color: #fff;
-  text-align:justify;
+    text-align: justify;
 }
 
 .article {
@@ -406,7 +465,6 @@ td, th {
 }
 
 td a {
-    color: blue;
 }
 
 th {
@@ -436,16 +494,16 @@ footer li {
 
 }
 
-nav ul {
+footer nav ul {
     display: inline-block;
 }
 
-nav ul li {
+footer nav ul li {
     list-style-type: none;
     padding: 5px;
 }
 
-nav {
+footer nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
@@ -456,7 +514,22 @@ nav h3 {
 
 /*Small screen*/
 @media only screen and (max-width: 640px) {
-    .btn-search {
+  .desk-menu{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .form-search{
+    display:block;
+    width:100%;
+    margin-left:5px;
+  }
+
+
+  .btn-search {
         position: relative;
         left: -30px;
     }
@@ -466,10 +539,15 @@ nav h3 {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .blog {
+        grid-template-columns: repeat(1, 1fr);
 
-    nav {
+    }
+
+
+    footer nav {
         display: grid;
-        grid-template-columns:1fr;
+        grid-template-columns:1fr 1fr;
     }
 
 
@@ -477,16 +555,52 @@ nav h3 {
         display: none;
     }
 
-    header {
-        grid-template-areas:
-		"logo menu"
-		"search";
-        background-color: #f5f5f5;
+  header{
+   height:106px;
+
+  }
+
+  .top{
+    margin-top:-5px;
+  }
+
+  .menu ul{
+margin:5px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  .menu li{
+    margin-right: 5px;
+        flex: 0 0 auto;
+  }
+    .menu li a {
+        font-size:14px;
+          padding:5px 10px;
     }
 
-    .menu li a {
-        font-weight: bold;
-    }
+  .first{
+    margin-left:-30px;
+  }
+  .top{
+    display:block;
+    width:100%;
+  }
+  .logo, .actions img{
+    display:inline-block;
+  }
+
+  .logo{
+	margin-top:-5px;
+  }
+
+  .actions{
+    position:absolute;
+    right:10px;
+    display:inline-block;
+  }
+
 
 
     select, input {
@@ -523,17 +637,20 @@ nav h3 {
 
     .product-row {
         width: 120px;
-      padding:5px;
+        padding: 5px;
     }
+  .product-price{
+    font-size:17px;
+  }
 
     .rows {
         overflow-x: scroll;
     }
 
-    .product img, .product-row img {
+    .product a img, .product-row a img {
         width: 60px;
         margin: 5px;
-      max-height:80px;
+        max-height: 80px;
     }
 
     .image-responsive {
@@ -544,5 +661,9 @@ nav h3 {
         max-width: 90%;
         margin: auto;
     }
+
+  .label{
+    margin:initial;
+  }
 
 }

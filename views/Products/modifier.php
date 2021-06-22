@@ -29,7 +29,7 @@ if (isset($message['info'])) {
 
         <label for="description">Description</label><br>
         <?= $message['description'] ?? '' ?>
-<textarea id="description" rows="5"  name="description"
+<textarea id="description" rows="10"  name="description"
           class="<?= isset($message['description']) ? 'field-error' : '' ?>"><?= $fields['description'] ?? $product->description ?></textarea>
 
             <br>

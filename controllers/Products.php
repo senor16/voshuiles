@@ -116,7 +116,7 @@ class Products extends Controller
                 $name = $name . '.' . $fileinfo['extension'];
 
 
-                if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/uploads' . $name)) {
+                if (move_uploaded_file($_FILES['image']['tmp_name'], ROOT.'images/uploads/' . $name)) {
                     $fields['image'] = $name;
                   str_replace("[enter]","\n",$fields['description']);
                     $id = $prod->add($fields);
@@ -211,11 +211,11 @@ class Products extends Controller
                         $name = $name . '.' . $fileinfo['extension'];
 
 
-                        if (move_uploaded_file($_FILES['image']['tmp_name'], 'images/uploads' . $name)) {
+                        if (move_uploaded_file($_FILES['image']['tmp_name'], ROOT.'images/uploads/' . $name)) {
                             $fields['image'] = $name;
                             $id = $prod->updateImage($name,$id);
                             if ($id) {
-                                unlink(ROOT_URL . 'images/' . $product->image);
+                                unlink(ROOT . 'images/uploads/' . $product->image);
                                 $results['message']['info'] = "Les modifications ont été enregistrées";
                                 $product = $prod->getOne($id);
                             } else {

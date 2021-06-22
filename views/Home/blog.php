@@ -10,18 +10,8 @@ if (isset($flash) && $flash != '') {
         echo '
         <div class="alert center error"></h3>' . $flash['message'] . '</h3></div>';
     }
-} ?>
+}
 
-
-    <h2>Nouveautés</h2>
-<?php showProducts($products, 'rows'); ?>
-
-    <h2 class="label">Promotion</h2>
-<?php showProducts($products, 'rows'); ?>
-
-    <h2 class="label">Blog</h2>
-      <?php
-showArticles($articles);
+ showArticles($articles,'blog');
 
 $content = ob_get_clean();
-$scriptFile = 'home.js';

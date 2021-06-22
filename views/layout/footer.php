@@ -11,7 +11,7 @@
 
             <ul class="nav-bottom">
                 <h3>Nous contacter</h3>
-                <li>Email: contact@manyanga.com</li>
+                <li>Email: contact@iherb.com</li>
                 <li><a href="">Facebook</a></li>
                 <li><a href="">Twitter</a></a> </li>
             </ul>
