@@ -1,16 +1,13 @@
 <?php
 session_start();
 use App\Controllers\HttpErrors;
-//error_reporting(E_ALL);
-//ini_set('display_errors', '1');
 
 
 
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 
-$url = $_SERVER['SERVER_ADDR'] == "::1" ? 'localhost' : $_SERVER['SERVER_ADDR'];
-define('ROOT_URL','http://'.$url.'/karite/');
-//define('ROOT_URL','http://'.$url.':8000/');
+$url = $_SERVER['SERVER_ADDR'];
+define('ROOT_URL','http://'.$url.'/');
 
 require_once ROOT."vendor/autoload.php";
 
