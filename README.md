@@ -18,6 +18,11 @@ The router configurations are located at `index.php`
 
     $url = $_SERVER['SERVER_ADDR'];
     define('ROOT_URL','http://'.$url.'/');
+
+Ofcourse don't forget to load the autoloader with the command:
+
+    composer dump-autoload
+
 ### Credentials for tests
 For demo purposes, we created a user with the following credentials:
 - Email : test@test.com
