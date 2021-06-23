@@ -51,6 +51,6 @@ class Home extends Controller{
     $_SESSION['active']='contact';
 
 
-    $this->render('contact',compact('title','articles'));
+    $this->render('contact',compact('title'));
   }
 }

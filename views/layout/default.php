@@ -24,5 +24,6 @@ if(isset($scriptFile)){
     ?>
 <script src="<?=ROOT_URL?>js/<?=$scriptFile?>"></script>
 <?php }?>
+<script src="<?=ROOT_URL?>js/drop-down.js"></script>
 </body>
 </html>

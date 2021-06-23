@@ -18,7 +18,7 @@ if (isset($message)) {
     <form class="form" action="" method="post">
         <label for="tel">Email ou Tel:</label><br>
         <?= $message['tel'] ?? '' ?>
-        <input id="tel" type="tel" required name="tel" value="<?= $fields['tel'] ?? '' ?>">
+        <input id="tel" type="text" required name="tel" value="<?= $fields['tel'] ?? '' ?>">
         <input class="del-add" type="submit" required name="login" value="Restaurer">
     </form>
 <?php
