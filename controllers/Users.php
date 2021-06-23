@@ -144,10 +144,10 @@ class Users extends \App\Controller
                     if ($req) {
                         $_SESSION['flash']['message'] = "Inscription réussite";
                         $_SESSION['flash']['type'] = 'success';
-                        if(isset($_SESSION['from'])){
+                        if (isset($_SESSION['from'])) {
                             unset($_SESSION['from']);
-                            header('Location: '.ROOT_URL . $_SESSION['from']);
-                        }else {
+                            header('Location: ' . ROOT_URL . $_SESSION['from']);
+                        } else {
                             header('Location: ' . ROOT_URL);
                         }
                     } else {
@@ -285,11 +285,13 @@ class Users extends \App\Controller
 
     public function settings(string $action = "main")
     {
+        $title = "Paramètres";
+        $error = new Errors();
         //Redirect the user to the login page if he is not logged
         if (!isset($_SESSION['auth'])) {
             $_SESSION['flash']['message'] = "Veuiller vous connecter";
             $_SESSION['flash']['type'] = "error";
-            $_SESSION['from']=str_replace('p=','',$_SERVER['QUERY_STRING']);
+            $_SESSION['from'] = str_replace('p=', '', $_SERVER['QUERY_STRING']);
             header("Location: " . ROOT_URL . "login");
         } else {
             $auth = $_SESSION['auth'];
@@ -297,8 +299,10 @@ class Users extends \App\Controller
             $result['error'] = false;
             $result['message'] = [];
             $fields = [];
+            $user = new User();
 
             if (isset($_POST['submit'])) {
+                $fields = $_POST;
                 //Correct the XSS fault
                 foreach ($fields as $key => $field) {
                     $fields[$key] = htmlspecialchars($fields[$key]);
@@ -306,94 +310,109 @@ class Users extends \App\Controller
                 //Perform the right action
                 switch ($action) {
                     case "profil":
-
                         //Check last name
                         if (isset($fields['last_name']) && !$this->checkLastName($fields['last_name'])) {
                             $result['error'] = true;
-                            $result['message']['last_name'] = 'Veuillez un nom valide';
+                            $result['message']['last_name'] = $error->showError('Veuillez un nom valide');
                         }
 
                         //Check first name
                         if (isset($fields['first_name']) && !$this->checkFirstName($fields['first_name'])) {
                             $result['error'] = true;
-                            $result['message']['first_name'] = "Veuillez entrer un prénom valide";
+                            $result['message']['first_name'] = $error->showError("Veuillez entrer un prénom valide");
                         }
 
-                        //Check avatar
-                        if (isset($fields['avatar']) && !$this->checkAvatar($fields['avatar'])) {
-                            $result['error'] = true;
-                            $result['message']['avatar'] = "Veuillez choisir une image valide (format autorisés : .png .jpg .jpeg .gif).";
-                        }
 
                         //Check phone number
                         if (isset($fields['tel']) && !$this->checkPhoneNumber($fields['tel'])) {
                             $result['error'] = true;
-                            $result['message']['tel'] = "Veuillez entrer un numéro valide (9 chiffres).";
+                            $result['message']['tel'] = $error->showError("Veuillez entrer un numéro valide (9 chiffres).");
                         }
 
                         //Check town
                         if (isset($fields['town']) && !$this->checkTown($fields['town'])) {
                             $result['error'] = true;
-                            $result['message']['town'] = "Veuillez entrer une ville valide.";
+                            $result['message']['town'] = $error->showError("Veuillez entrer une ville valide.");
                         }
 
                         //Check birth date
                         if (isset($fields['birth_date']) && !$this->checkBirthDate($fields['birth_date'])) {
                             $result['error'] = true;
-                            $result['message']['birth_date'] = "Veuillez entrer une date de naissance valide";
+                            $result['message']['birth_date'] = $error->showError("Veuillez entrer une date de naissance valide");
                         }
 
                         //Check gender
                         if (isset($fields['gender']) && !$this->checkGender($fields['gender'])) {
                             $result['error'] = true;
-                            $result['message']['gender'] = "Veuillez choisir un genre valide";
+                            $result['message']['gender'] = $error->showError("Veuillez choisir un genre valide");
                         }
 
                         //Check email
                         if (isset($fields['email']) && !$this->checkEmail($fields['email'])) {
                             $result['error'] = true;
-                            $result['message']['email'] = "Veuillez entrer un email valide.";
+                            $result['message']['email'] = $error->showError("Veuillez entrer un email valide.");
                         }
 
                         if (!$result['error']) {
-                            $result['info'] = "Les modifications ont été enregistrées avecsuccès.";
-                            $result['message']['email'] = "Un email vous a été envoyé pour confirmer votre nouvelle adresse email";
-                            $result['message']['tel'] = "Un sms vous a été envoyé pour confirmer votre nouveau numéro de téléphone";
+                            if($user->update($fields,$auth->id)){
+                                $result['message']['info'] = "Les modifications ont été enregistrées avec succès.";
+                                $fields=[];
+                                $auth = $user->getOne($auth->id);
+                                $_SESSION['auth']=$auth;
+                            }else{
+                                $result['error']=true;
+                                $result['message']['info'] = "Une erreur s'est produite";
+                            }
+
                         }
 
                         break;
 
 
                     case "delete":
-                        if (!isset($fields['password'])) {
+                        if (!isset($fields['password'])  || !password_verify($fields['password'], $auth->password)) {
                             $result['error'] = true;
-                            $result['message']['password'] = "Veuiller entrer votre mot de passe";
+                            $result['message']['password'] = $error->showError("Veuiller entrer votre mot de passe");
                         }
 
                         if (!$result['error']) {
-                            $result['info'] = "Votre compte a été supprimé";
+                            if($user->delete($auth->id)) {
+                                $result['message']['info'] = "Votre compte a été supprimé";
+                                header("Location:" . ROOT_URL . "logout");
+                            }else{
+                                $result['error']=true;
+                                $result['message']['info'] = "Une erreur s'est produite";
+                            }
                         }
 
                         break;
 
                     case "password":
-                        if (!isset($fields['password'])) {
+                        if (!isset($fields['password']) || !password_verify($fields['password'], $auth->password)) {
                             $result['error'] = true;
-                            $result['message']['password'] = "Veuillez entrer votre mot de passe actuel";
+                            $result['message']['password'] = $error->showError("Veuillez entrer votre mot de passe actuel");
                         }
 
                         if (!isset($fields['new_password']) || !$this->checkPassword($fields['new_password'])) {
                             $result['error'] = true;
-                            $result['message']['new_password'] = "Veuillez entrer un mot de passe valide (6 à 255 caractères).";
+                            $result['message']['new_password'] = $error->showError("Veuillez entrer un mot de passe valide (6 à 255 caractères).");
                         }
 
                         if (!isset($fields['password_confirm']) || $fields['new_password'] !== $fields['password_confirm']) {
                             $result['error'] = true;
-                            $result['message']['password_confirm'] = "Les mots de passes ne correspondent pas";
+                            $result['message']['password_confirm'] = $error->showError("Les mots de passes ne correspondent pas");
                         }
 
                         if (!$result['error']) {
-                            $result['info'] = "Votre mot de passe a été modifié avec succès";
+                            if($user->updatePassword(password_hash($fields['new_password'], PASSWORD_BCRYPT),$auth->id)){
+                                $auth = $user->getOne($auth->id);
+                                $_SESSION['auth']=$auth;
+                                $result['message']['info'] = "Votre mot de passe a été modifié avec succès";
+                            }else{
+                                $result['error']=true;
+                                $result['message']['info'] = "Une erreur s'est produite";
+                            }
+
                         }
 
                         break;

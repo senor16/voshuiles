@@ -19,8 +19,9 @@ class Article extends Model
             $query = $this->connexion->prepare($sql);
             $query->execute(['slug' => $slug]);
             return $query->fetch();
-        } catch (PDOException $exception) {
-            die("Error getOne " . $exception->getMessage());
+        } catch (\PDOException $exception) {
+//            die("Error getOneBySlug " . $exception->getMessage());
+        return false;
         }
   }
 

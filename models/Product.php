@@ -30,8 +30,9 @@ class Product extends Model
                 'image' => $fields['image']
             ]);
             return $this->connexion->lastInsertId();
-        } catch (PDOException $exception) {
-            die('Erreur add client : ' . $exception->getMessage());
+        } catch (\PDOException $exception) {
+//            die('Erreur add client : ' . $exception->getMessage());
+            return false;
         }
     }
 
@@ -51,8 +52,9 @@ class Product extends Model
                 'id'=>$fields['id']
             ]);
             return true;
-        } catch (PDOException $exception) {
-            die('Erreur add client : ' . $exception->getMessage());
+        } catch (\PDOException $exception) {
+//            die('Erreur update : ' . $exception->getMessage());
+            return false;
         }
     }
 
@@ -66,8 +68,9 @@ class Product extends Model
                 'id'=>$id
             ]);
             return true;
-        } catch (PDOException $exception) {
-            die('Erreur add client : ' . $exception->getMessage());
+        } catch (\PDOException $exception) {
+//            die('Erreur Update image : ' . $exception->getMessage());
+            return false;
         }
     }
 
@@ -78,8 +81,10 @@ class Product extends Model
             $query = $this->connexion->prepare($sql);
             $query->execute(['id'=>$id]);
             return $query->fetchAll();
-        } catch (PDOException $exception) {
-            die("Error GetAll " . $exception->getMessage());
+        } catch (\PDOException $exception) {
+//            die("Error GetProductsOff " . $exception->getMessage());
+            return false;
+
         }
     }
 

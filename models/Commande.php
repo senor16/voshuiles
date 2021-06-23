@@ -32,7 +32,8 @@ class Commande extends \App\Model
             return $this->connexion->lastInsertId();
         } catch (\PDOException $exception) {
 
-            die('Erreur add client : ' . $exception->getMessage());
+//            die('Erreur add client : ' . $exception->getMessage());
+            return false;
         }
     }
 }
