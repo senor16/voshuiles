@@ -9,7 +9,7 @@ abstract class Model
     private string $dbname = "projet";
     private string $host = "localhost";
     private string $username = "root";
-    private string $password = "dedma16";
+    private string $password = "";
 
     //Tables
     public string $table;
