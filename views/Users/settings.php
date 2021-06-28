@@ -21,8 +21,6 @@ if ($action != "") {
             <ul class="settings">
                 <li><a href="<?= ROOT_URL ?>settings/profil"> Profil</a></li>
                 <li><a href="<?= ROOT_URL ?>settings/password"> Changer de mot de passe</a></li>
-                <li><a href="<?= ROOT_URL ?>settings/delete"> Supprimer mon compte</a></li>
-            </ul>
             <?php
             break;
         case "profil":
@@ -99,20 +97,6 @@ if ($action != "") {
                 <input class="del-add" type="submit" required name="submit" value="Enregistrer">
 
             </form>
-            <?php
-            break;
-
-        case "delete":
-            ?>
-            <form method="post">
-                <label for="password">Mot de passe </label><br>
-                <?= $message['password'] ?? '' ?>
-                <input id="password" type="password" required name="password" placeholder="votremotdepasse"
-                       class="<?= isset($message['password']) ? 'field-error' : '' ?>">
-                <br>
-                <input type="submit" class="del-add" value="Supprimer" name="submit">
-            </form>
-
             <?php
             break;
 

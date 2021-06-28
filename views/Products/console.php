@@ -4,7 +4,7 @@ require_once ROOT . 'views/layout/functions.php';
 ?>
 
 <h2 class="center"><?=$title?></h2>
-<a class="button" href="<?=ROOT_URL?>ajouter">Ajouter un produit</a>
+<a class="del-add" href="<?=ROOT_URL?>ajouter">Ajouter un produit</a><br><br>
 <?php showProducts($products,'products', true); ?>
 
 <?php

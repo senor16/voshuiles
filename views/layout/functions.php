@@ -10,9 +10,9 @@ function showProducts(array $products = [], $class = "products", $editable = fal
         <?php
         echo '<a href="'.ROOT_URL.'details/'.$product->id.'"> <img src="' . ROOT_URL . 'images/uploads/' . $product->image . '"
                          alt="product image"></a><p></p>
+                    <span class="product-price">' . $product->prix . ' <small>FCFA</small></span>
                     <span class=product-name><a href="'.ROOT_URL.'details/'.$product->id.'">' . $product->designation . '</a><br> ' .
-            $product->qualite . '</span>
-                    <span class="product-price">' . $product->prix . ' FCFA</span>';
+            $product->qualite . '</span><br>';
         if($editable){
             ?>
             <a href="<?=ROOT_URL?>products/modifier/<?=$product->id?>">Modifier</a>

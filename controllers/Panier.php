@@ -16,7 +16,11 @@ class Panier extends \App\Controller
             $flash = $_SESSION['flash']['alert'];
             unset($_SESSION['flash']);
         }
+
+      $_SESSION['active']='boutique';
+
         $this->render('index', compact('title', 'flash'));
+
     }
 
     //Add a product to a cart

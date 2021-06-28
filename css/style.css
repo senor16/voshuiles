@@ -15,7 +15,8 @@ html {
 */
 header {
     height: 100px;
-    background-color: #293847;
+    /*background-color: #293847;*/
+    background-color: #188B54;
     margin-bottom: 30px;
 }
 
@@ -107,7 +108,7 @@ header a {
 }
 
 .drop-down {
-    background-color: #293847;
+    background-color: #0da45c;
     padding: 5px;
     display: block;
     border: 1px solid #efefef;
@@ -245,6 +246,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     padding: 5px 7px;
     margin-top: 20px;
     margin-right: 20px;
+  text-decoration:none;
 }
 
 .del-add {
@@ -278,16 +280,17 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 
 
 .add-to-card:hover {
-    border-color: #b66700;
-    background-color: #c06d00;
+    border-color: #0da45c;
+    background-color: #0da45c;
     background-repeat: repeat-x;
 }
 
-.add-to-card {
+.add-to-card, .del-add{
     color: #fff;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #ef7000;
+    padding-top: 10px;
+  border-radius:5px;
+    padding-bottom: 10px;
+    background-color: #188B54;
 
 
 }
@@ -367,7 +370,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
 
 
 .articles, .blog {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .article img, .article-details img {
@@ -379,6 +382,7 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     display: flex;
     flex-wrap: nowrap;
     overflow-x: hidden;
+
 }
 
 .next, .previous {
@@ -437,6 +441,10 @@ input[type=text], input[type=number], input[type=date], input[type=tel], input[t
     display: inline-block;
     text-align: center;
 
+}
+
+.product-name a{
+  color:inherit;
 }
 
 .image-responsive {
@@ -544,7 +552,11 @@ nav h3 {
 
 /*Small screen*/
 @media only screen and (max-width: 640px) {
-    .desk-menu {
+  html{
+    font-size:12px;
+  }
+
+  .desk-menu {
         display: none;
     }
 
@@ -593,6 +605,7 @@ nav h3 {
     .top {
         margin-top: -5px;
     }
+
 
     .menu ul {
         margin: 5px;
@@ -669,7 +682,7 @@ nav h3 {
 
     .product-row {
         width: 120px;
-        padding: 5px;
+        padding: 10px;
     }
 
     .product-price {

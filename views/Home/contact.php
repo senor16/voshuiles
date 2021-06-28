@@ -2,7 +2,7 @@
 ob_start();
 ?>
 
-<h1 class="center">iHerb</h1>
+<h1 style="color:#188B54;" class="center">vosHuiles</h1>
 <h2>
 Découvrez tous les moyens de nous contacter</h2>
 

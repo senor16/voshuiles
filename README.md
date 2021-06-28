@@ -1,8 +1,8 @@
-# iHerb
+# vosHuiles
 A websiteto get educated about natural vegetables oils and buy some.
 
 ## Demo
-![Homepage](images/screenshot.png)
+![Homepage](images/home.png)
 
 You need first to load the database. It is located at `database/db.sql`
 

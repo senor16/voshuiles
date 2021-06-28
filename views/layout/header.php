@@ -1,7 +1,7 @@
 <header>
     <div class="desk-menu">
         <div class="top">
-            <h1 class="logo"><a href="<?= ROOT_URL ?>">iHerb</a></h1>
+            <h1 class="logo"><a href="<?= ROOT_URL ?>">vosHuiles</a></h1>
             <form class="form-search" method="get" action="<?= ROOT_URL ?>products/search">
                 <input class="q-search" name="q" type="search" required minlength="1" placeholder="Que voulez vous ?"
                        value="<?= $q ?? '' ?>">
@@ -35,7 +35,7 @@
     </div>
     <div class="mobile-menu">
         <div class="top">
-            <h1 class="logo"><a href="<?= ROOT_URL ?>">iHerb</a></h1>
+            <h1 class="logo"><a href="<?= ROOT_URL ?>">vosHuiles</a></h1>
             <div class="actions">
                 <a class="user" href="<?=ROOT_URL?>login"><img src="<?= ROOT_URL ?>svg/user.svg"></a>
                 <a href="<?=ROOT_URL?>panier"><img style="margin-left:10px" src="<?= ROOT_URL ?>svg/shopping-cart.svg"></a>

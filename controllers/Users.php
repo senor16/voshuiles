@@ -368,25 +368,6 @@ class Users extends \App\Controller
 
                         break;
 
-
-                    case "delete":
-                        if (!isset($fields['password'])  || !password_verify($fields['password'], $auth->password)) {
-                            $result['error'] = true;
-                            $result['message']['password'] = $error->showError("Veuiller entrer votre mot de passe");
-                        }
-
-                        if (!$result['error']) {
-                            if($user->delete($auth->id)) {
-                                $result['message']['info'] = "Votre compte a été supprimé";
-                                header("Location:" . ROOT_URL . "logout");
-                            }else{
-                                $result['error']=true;
-                                $result['message']['info'] = "Une erreur s'est produite";
-                            }
-                        }
-
-                        break;
-
                     case "password":
                         if (!isset($fields['password']) || !password_verify($fields['password'], $auth->password)) {
                             $result['error'] = true;

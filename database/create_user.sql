@@ -9,7 +9,7 @@ CREATE TABLE user (
   date_naiss DATE,
   password VARCHAR(255),
   email VARCHAR(255),
-  role ENUM('CLIENT','PRODUCTEUR'),
+  role ENUM('CLIENT','PRODUCTEUR','CONTRIBUTEUR'),
   remember VARCHAR(255),
   CONSTRAINT
     pk_client PRIMARY KEY(id),
@@ -18,5 +18,4 @@ CREATE TABLE user (
   CONSTRAINT
     un_tel UNIQUE (tel)
 );
-
 
