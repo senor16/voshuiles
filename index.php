@@ -2,13 +2,14 @@
 session_start();
 use App\Controllers\HttpErrors;
 
+
+
 define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 
-//Get the root directory
+//Get the current dirrectory
 $dir = explode('/',__DIR__);
 $dir = $dir[count($dir)-1];
 
-//Get the root url
 $url = $_SERVER['SERVER_ADDR'];
 define('ROOT_URL','http://'.$url.'/'.$dir.'/');
 

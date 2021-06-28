@@ -10,14 +10,10 @@ You need first to load the database. It is located at `database/db.sql`
 
 The credentials to connect to the database are located at `app/model.php`
 
-    define('ROOT', str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
     private string $username = "root";
     private string $password = "";
 
-The router configurations are located at `index.php`
 
-    $url = $_SERVER['SERVER_ADDR'];
-    define('ROOT_URL','http://'.$url.'/');
 
 Ofcourse don't forget to load the autoloader with the command:
 
